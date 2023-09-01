@@ -1,7 +1,6 @@
 'use client';
 import GlobalQueryProvider from '@/app/components/GlobalQueryProvider';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 import React from 'react';
 import ProductCard from './ProductCard';
 
@@ -18,7 +17,7 @@ function ProductList() {
 		['products'],
 		async () => {
 			const response = await fetch(
-				'http://localhost:3000/products?limit=16'
+				'http://192.168.1.6:3000/products?limit=16'
 			);
 
 			if (!response.ok)
@@ -29,7 +28,7 @@ function ProductList() {
 	);
 
 	return (
-		<div className="flex flex-wrap gap-2 xl:gap-4 flex-grow mx-auto overflow-y-auto custom-scroll-bar">
+		<div className="flex flex-col lg:flex-wrap gap-4 xl:gap-4 flex-grow mx-auto overflow-y-auto custom-scroll-bar">
 			{!isLoading &&
 				data?.map((p: any) => (
 					<ProductCard

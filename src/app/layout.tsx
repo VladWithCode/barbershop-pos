@@ -21,7 +21,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={font.className}>
-				<div className="flex h-full overflow-hidden">
+				<div className="relative lg:flex flex-wrap lg:h-full z-0">
 					<Sidebar />
 					{children}
 				</div>
