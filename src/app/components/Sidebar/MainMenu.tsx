@@ -27,7 +27,11 @@ const Links = [
 	},
 ];
 
-function MainMenu() {
+function MainMenu({
+	setSidebarActive,
+}: {
+	setSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
 	const pathname = usePathname();
 
 	return (
@@ -40,10 +44,11 @@ function MainMenu() {
 							pathname.startsWith(
 								'/' + l.label.toLocaleLowerCase()
 							)) &&
-							'bg-zinc-800'
+							'bg-rose-700'
 					)}
 					href={l.href}
-					key={l.href}>
+					key={l.href}
+					onClick={() => setSidebarActive(false)}>
 					<div className="absolute top-0 left-0 w-0 h-full bg-zinc-800 rounded-sm transition-[width] group-hover:w-full z-0"></div>
 					<span className="relative z-10">{l.label}</span>
 				</Link>
