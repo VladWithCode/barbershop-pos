@@ -8,8 +8,10 @@ function Sidebar() {
 	const [isActive, setIsActive] = useState(false);
 
 	return (
-		<div className="relative flex flex-col top-0 left-0 h-24 w-full z-30">
-			<div className="mx-auto z-10 w-full h-full bg-neutral-950">
+		<div className="relative top-0 left-0 h-24 w-full z-30">
+			<div
+				className="sticky mx-auto z-10 w-full h-full bg-neutral-950"
+				onClick={() => setIsActive(prev => !prev)}>
 				<Image
 					src="/logo-w.webp"
 					width={128}
@@ -18,7 +20,6 @@ function Sidebar() {
 					className="m-auto w-20 h-20"
 					title="Menu"
 					role="button"
-					onClick={() => setIsActive(prev => !prev)}
 				/>
 				<svg className="mx-auto -mt-4 w-6 h-6 fill-zinc-50 rotate-90">
 					<use href="/sprites.svg#angle"></use>
@@ -40,7 +41,7 @@ function Sidebar() {
 				/>
 
 				{/* Main Menu */}
-				<MainMenu />
+				<MainMenu setSidebarActive={setIsActive} />
 
 				{/* Contents change depending on section */}
 			</div>
