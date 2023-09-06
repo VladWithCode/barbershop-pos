@@ -18,6 +18,10 @@ body {
 	height: 100vh;
 }
 
+.h-page {
+	height: calc(100vh - 6rem);
+}
+
 .custom-scroll-bar {
 	&::-webkit-scrollbar {
 		@apply bg-zinc-400;
