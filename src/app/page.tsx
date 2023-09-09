@@ -16,11 +16,11 @@ const HomeActions = [
 const HomeMenu = [
 	{
 		name: 'Ventas',
-		icon: 'plus',
+		icon: 'bill',
 	},
 	{
 		name: 'Productos',
-		icon: 'credit_card',
+		icon: 'cologne',
 	},
 	{
 		name: 'Clientes',
