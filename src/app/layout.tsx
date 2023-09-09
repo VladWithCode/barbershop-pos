@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import Sidebar from './components/Sidebar/Sidebar';
+import GlobalQueryProvider from './components/GlobalQueryProvider';
 
 const font = Poppins({
 	weight: ['300', '400', '500', '700'],
@@ -21,9 +22,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={font.className}>
-				<div className="flex h-full overflow-hidden">
-					<Sidebar />
-					{children}
+				<div className="relative lg:flex flex-wrap h-full z-0">
+					<GlobalQueryProvider>
+						<Sidebar />
+						{children}
+					</GlobalQueryProvider>
 				</div>
 			</body>
 		</html>

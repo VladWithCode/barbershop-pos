@@ -16,14 +16,14 @@ function InputGroup({
 }) {
 	return (
 		<div className="flex flex-col gap-y-2">
-			<label htmlFor="name" className="text-xs font-bold">
+			<label htmlFor="name" className="text-sm font-medium">
 				{label}
 			</label>
 			<input
 				type={type || 'text'}
 				name={name}
 				id={name}
-				className="px-3 py-1 text-zinc-900 text-md rounded shadow-inner shadow-zinc-400"
+				className="bg-transparent border-0 border-b-2 border-rose-300 focus:outline-none focus:ring-0 focus:shadow-transparent focus:border-zinc-50"
 				value={value}
 				onChange={onChange}
 			/>
