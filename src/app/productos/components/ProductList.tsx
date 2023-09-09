@@ -3,6 +3,7 @@ import GlobalQueryProvider from '@/app/components/GlobalQueryProvider';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import ProductCard from './ProductCard';
+import globals from '@/app/globals';
 
 export function ProductListWrapper() {
 	return (
@@ -17,7 +18,7 @@ function ProductList() {
 		['products'],
 		async () => {
 			const response = await fetch(
-				'http://192.168.1.6:3000/products?limit=16'
+				globals.API_BASE_URL + '/products?limit=16'
 			);
 
 			if (!response.ok)
