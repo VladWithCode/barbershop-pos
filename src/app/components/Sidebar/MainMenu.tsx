@@ -35,7 +35,7 @@ function MainMenu({
 	const pathname = usePathname();
 
 	return (
-		<ul className="flex flex-col gap-y-3">
+		<ul className="relative w-full flex flex-col bg-neutral-950 px-6 py-4 gap-y-3 z-10">
 			{Links.map(l => (
 				<Link
 					className={getClassName(
