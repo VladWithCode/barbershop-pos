@@ -14,7 +14,7 @@ function ProductCard({
 	return (
 		<Link
 			href={'/productos/' + _id}
-			className="flex flex-col relative w-72 h-72 xl:w-60 xl:h-60 cursor-pointer drop-shadow overflow-hidden transition-transform hover:scale-105 group bg-zinc-900 rounded-md">
+			className="flex flex-col relative h-80 aspect-square xl:w-60 xl:h-60 cursor-pointer drop-shadow overflow-hidden transition-transform hover:scale-105 group bg-rose-700 rounded-md active:bg-rose-500">
 			{picture?.length > 0 ? (
 				<Image
 					src={'http://localhost:3000' + picture}
