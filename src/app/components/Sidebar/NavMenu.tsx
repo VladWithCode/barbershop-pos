@@ -28,7 +28,9 @@ function NavMenu({
 					exit={{
 						top: '-100%',
 					}}>
-					<div className="fixed top-0 left-0 w-full h-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm z-0"></div>
+					<div
+						className="fixed top-0 left-0 w-full h-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm z-0"
+						onClick={() => setIsMenuActive(false)}></div>
 					<ul className="relative flex flex-col py-4 px-4 justify-center w-full bg-neutral-950 z-10 gap-y-2 text-center">
 						<li
 							className={getClassName(
