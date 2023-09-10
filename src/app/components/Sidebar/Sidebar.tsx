@@ -6,9 +6,10 @@ import { getClassName } from '@/app/utils/helpers';
 import BackBtn from './BackBtn';
 import UserBtn from './UserBtn';
 import UserMenu from './UserMenu';
+import NavMenu from './NavMenu';
 
 function Sidebar() {
-	const [isActive, setIsActive] = useState(false);
+	const [isNavMenuActive, setIsNavMenuActive] = useState(false);
 	const [isUserMenuActive, setIsUserMenuActive] = useState(false);
 
 	return (
@@ -17,7 +18,7 @@ function Sidebar() {
 				<div className="relative flex w-full h-full bg-neutral-950 z-20">
 					<BackBtn />
 
-					<MenuToggler setIsActive={setIsActive} />
+					<MenuToggler setIsActive={setIsNavMenuActive} />
 
 					<UserBtn setUserMenuActive={setIsUserMenuActive} />
 				</div>
@@ -27,16 +28,21 @@ function Sidebar() {
 					isUserMenuActive={isUserMenuActive}
 				/>
 
+				<NavMenu
+					isMenuActive={isNavMenuActive}
+					setIsMenuActive={setIsNavMenuActive}
+				/>
+
 				<div
 					className={getClassName(
-						'relative left-0 right-0 lg:border-r-2 border-zinc-900 z-0 transition-[top] duration-200',
-						isActive ? 'top-0 ' : '-top-64'
+						'hidden relative left-0 right-0 lg:border-r-2 border-zinc-900 z-0 transition-[top] duration-200 lg:block',
+						isNavMenuActive ? 'top-0 ' : '-top-64'
 					)}>
 					<button
-						onClick={() => setIsActive(false)}
+						onClick={() => setIsNavMenuActive(false)}
 						className={getClassName(
 							'fixed top-0 left-0 h-screen w-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm -z-10',
-							isActive ? 'block' : 'hidden'
+							isNavMenuActive ? 'block' : 'hidden'
 						)}
 					/>
 
@@ -47,8 +53,6 @@ function Sidebar() {
 						alt="The Boss Logo"
 						className="hidden mx-auto w-20 h-20"
 					/>
-					{/* Navigation Menu */}
-					<MainMenu setSidebarActive={setIsActive} />
 
 					{/* Contents change depending on section */}
 				</div>
