@@ -1,17 +1,9 @@
 'use client';
-import GlobalQueryProvider from '@/app/components/GlobalQueryProvider';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import ProductCard from './ProductCard';
 import globals from '@/app/globals';
-
-export function ProductListWrapper() {
-	return (
-		<GlobalQueryProvider>
-			<ProductList />
-		</GlobalQueryProvider>
-	);
-}
+import Loading from '@/app/components/Loading/Loading';
 
 function ProductList() {
 	const { data, error, isLoading, isError } = useQuery(
@@ -27,6 +19,21 @@ function ProductList() {
 			return await response.json();
 		}
 	);
+
+	if (isLoading)
+		return (
+			<div className="w-full h-page">
+				<Loading />
+			</div>
+		);
+
+	if (isError)
+		return (
+			<div className="w-full h-page">
+				<p className="text-zinc-50">Error recuperando los productos</p>
+				<p>{globals.API_BASE_URL}</p>
+			</div>
+		);
 
 	return (
 		<div className="flex flex-col lg:flex-wrap gap-4 xl:gap-4 flex-grow mx-auto overflow-y-auto custom-scroll-bar">
