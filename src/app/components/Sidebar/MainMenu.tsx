@@ -40,11 +40,12 @@ function MainMenu({
 				<Link
 					className={getClassName(
 						'relative px-3 py-1 font-bold uppercase rounded-sm group',
+						// If the current pathname is the same as the link's href
 						(l.href === pathname ||
 							pathname.startsWith(
 								'/' + l.label.toLocaleLowerCase()
 							)) &&
-							'bg-rose-700'
+							'bg-rose-700' // Use a different bg color
 					)}
 					href={l.href}
 					key={l.href}
