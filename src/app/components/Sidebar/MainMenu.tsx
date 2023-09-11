@@ -35,7 +35,7 @@ function MainMenu({
 	const pathname = usePathname();
 
 	return (
-		<ul className="relative w-full flex flex-col bg-neutral-950 px-6 py-4 gap-y-3 z-10">
+		<ul className="relative w-full flex flex-col px-6 py-4 gap-y-3 z-10">
 			{Links.map(l => (
 				<Link
 					className={getClassName(
@@ -45,7 +45,7 @@ function MainMenu({
 							pathname.startsWith(
 								'/' + l.label.toLocaleLowerCase()
 							)) &&
-							'bg-rose-700' // Use a different bg color
+							'bg-barber-red' // Use a different bg color
 					)}
 					href={l.href}
 					key={l.href}

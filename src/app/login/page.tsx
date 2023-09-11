@@ -26,14 +26,14 @@ function Login() {
 
 			<div className="w-11/12 my-8 mx-auto">
 				{loginError && (
-					<p className="text-rose-700 font-bold text-md">
+					<p className="text-barber-red font-bold text-md">
 						{loginError}
 					</p>
 				)}
 			</div>
 
 			<form
-				className="w-fit max-w-[95%] py-6 px-8 mx-auto mt-8 bg-rose-700 shadow-sm shadow-rose-800 space-y-4 rounded-md"
+				className="w-fit max-w-[95%] py-6 px-8 mx-auto mt-8 bg-barber-red shadow-sm shadow-rose-800 space-y-4 rounded-md"
 				onSubmit={async e => {
 					e.preventDefault();
 
@@ -58,7 +58,7 @@ function Login() {
 
 				<button
 					type="submit"
-					className="w-full py-2 text-white bg-rose-500 hover:bg-rose-600">
+					className="w-full py-2 text-white bg-barber-red hover:bg-barber-red">
 					Iniciar Sesión
 				</button>
 			</form>

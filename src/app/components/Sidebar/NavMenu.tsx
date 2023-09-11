@@ -31,42 +31,43 @@ function NavMenu({
 					<div
 						className="fixed top-0 left-0 w-full h-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm z-0"
 						onClick={() => setIsMenuActive(false)}></div>
-					<ul className="relative flex flex-col py-4 px-4 justify-center w-full bg-neutral-950 z-10 gap-y-2 text-center">
+					<ul className="relative flex flex-col py-4 px-4 justify-center w-full bg-zinc-950 z-10 gap-y-2">
 						<li
 							className={getClassName(
-								'relative px-3 py-1 font-bold uppercase rounded-sm group',
-								pathname === '/' && 'bg-rose-700'
+								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
+								pathname === '/' && 'bg-barber-red'
 							)}>
 							<Link href="/">Inicio</Link>
 						</li>
 						<li
 							className={getClassName(
-								'relative px-3 py-1 font-bold uppercase rounded-sm group',
-								pathname.startsWith('/ventas') && 'bg-rose-700'
+								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
+								pathname.startsWith('/ventas') &&
+									'bg-barber-red'
 							)}>
 							<Link href="/ventas">Ventas</Link>
 						</li>
 						<li
 							className={getClassName(
-								'relative px-3 py-1 font-bold uppercase rounded-sm group',
+								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/clientes') &&
-									'bg-rose-700'
+									'bg-barber-red'
 							)}>
 							<Link href="/clientes">Clientes</Link>
 						</li>
 						<li
 							className={getClassName(
-								'relative px-3 py-1 font-bold uppercase rounded-sm group',
+								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/productos') &&
-									'bg-rose-700'
+									'bg-barber-red'
 							)}>
 							<Link href="/productos">Productos</Link>
 						</li>
 						<li
 							className={getClassName(
-								'relative px-3 py-1 font-bold uppercase rounded-sm group',
+								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/reportes') &&
-									'bg-rose-700'
+									'bg-barber-red'
 							)}>
 							<Link href="/reportes">Reportes</Link>
 						</li>

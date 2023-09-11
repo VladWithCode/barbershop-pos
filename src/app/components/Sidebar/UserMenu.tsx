@@ -25,7 +25,7 @@ function UserMenu({
 						top: '-100%',
 					}}>
 					<div className="fixed top-0 left-0 w-full h-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm z-0"></div>
-					<ul className="relative flex flex-col py-4 px-2 items-center justify-center w-full bg-neutral-950 z-10 gap-y-3">
+					<ul className="relative flex flex-col py-4 px-6 justify-center w-full bg-zinc-950 text-zinc-50 z-10 gap-y-3">
 						<li>
 							<Link
 								className="font-bold uppercase"

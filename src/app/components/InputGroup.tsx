@@ -23,7 +23,7 @@ function InputGroup({
 				type={type || 'text'}
 				name={name}
 				id={name}
-				className="bg-transparent border-0 border-b-2 border-rose-300 focus:outline-none focus:ring-0 focus:shadow-transparent focus:border-zinc-50"
+				className="bg-transparent border-0 border-b-2 border-barber-red focus:outline-none focus:ring-0 focus:shadow-transparent focus:border-zinc-50"
 				value={value}
 				onChange={onChange}
 			/>
