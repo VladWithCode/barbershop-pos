@@ -1,5 +1,5 @@
 import React from 'react';
-import { getClassName } from '../utils/helpers';
+import { getClassName } from '../_utils/helpers';
 
 function Card({
 	className,

@@ -2,7 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { getClassName } from '@/app/utils/helpers';
+import { getClassName } from '@/app/_utils/helpers';
 import { usePathname } from 'next/navigation';
 
 function NavMenu({

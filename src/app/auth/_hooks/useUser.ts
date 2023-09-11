@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useAuthStore from '../stores/useAuthStore';
+import useAuthStore from '../_stores/useAuthStore';
 import Cookies from 'js-cookie';
 
 export default function useUser() {

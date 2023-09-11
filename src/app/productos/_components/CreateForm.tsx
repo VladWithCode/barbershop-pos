@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, ChangeEvent } from 'react';
-import useCreateProductStore from '../stores/useCreateProductStore';
-import InputGroup from '@/app/components/InputGroup';
+import useCreateProductStore from '../_stores/useCreateProductStore';
+import InputGroup from '@/app/_components/InputGroup';
 
 export default function CreateForm() {
 	const {

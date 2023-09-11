@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import MainMenu from './MainMenu';
-import { getClassName } from '@/app/utils/helpers';
+import { getClassName } from '@/app/_utils/helpers';
 import BackBtn from './BackBtn';
 import UserBtn from './UserBtn';
 import UserMenu from './UserMenu';

@@ -1,10 +1,12 @@
-import ControlWrapper from './components/Controls/ControlWrapper';
-import ProductList from './components/ProductList';
+import ProductList from './_components/ProductList';
+import ActionsMenu from './_components/Menu/ActionsMenu';
 
 export default function products() {
 	return (
-		<div className="flex flex-col mx-auto w-full">
-			<ControlWrapper />
+		<div className="w-full h-page">
+			{/* <ControlWrapper /> */}
+			<ActionsMenu />
+
 			<ProductList />
 		</div>
 	);

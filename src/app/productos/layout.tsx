@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import React from 'react';
-import SearchBar from './components/Controls/SearchBar';
+import SearchBar from './_components/Controls/SearchBar';
 
 export const metadata: Metadata = {
 	title: 'The Boss | Productos',

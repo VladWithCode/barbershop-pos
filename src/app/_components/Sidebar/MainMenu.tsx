@@ -1,5 +1,5 @@
 'use client';
-import { getClassName } from '@/app/utils/helpers';
+import { getClassName } from '@/app/_utils/helpers';
 import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
