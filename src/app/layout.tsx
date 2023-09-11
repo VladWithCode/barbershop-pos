@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import Sidebar from './components/Sidebar/Sidebar';
-import GlobalQueryProvider from './components/GlobalQueryProvider';
+import Sidebar from './_components/Sidebar/Sidebar';
+import GlobalQueryProvider from './_components/GlobalQueryProvider';
 
 const font = Poppins({
 	weight: ['300', '400', '500', '700'],
