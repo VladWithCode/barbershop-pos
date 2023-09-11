@@ -37,7 +37,11 @@ function NavMenu({
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname === '/' && 'bg-barber-red'
 							)}>
-							<Link href="/">Inicio</Link>
+							<Link
+								href="/"
+								onClick={() => setIsMenuActive(false)}>
+								Inicio
+							</Link>
 						</li>
 						<li
 							className={getClassName(
@@ -45,7 +49,11 @@ function NavMenu({
 								pathname.startsWith('/ventas') &&
 									'bg-barber-red'
 							)}>
-							<Link href="/ventas">Ventas</Link>
+							<Link
+								href="/ventas"
+								onClick={() => setIsMenuActive(false)}>
+								Ventas
+							</Link>
 						</li>
 						<li
 							className={getClassName(
@@ -53,7 +61,11 @@ function NavMenu({
 								pathname.startsWith('/clientes') &&
 									'bg-barber-red'
 							)}>
-							<Link href="/clientes">Clientes</Link>
+							<Link
+								href="/clientes"
+								onClick={() => setIsMenuActive(false)}>
+								Clientes
+							</Link>
 						</li>
 						<li
 							className={getClassName(
@@ -61,7 +73,11 @@ function NavMenu({
 								pathname.startsWith('/productos') &&
 									'bg-barber-red'
 							)}>
-							<Link href="/productos">Productos</Link>
+							<Link
+								href="/productos"
+								onClick={() => setIsMenuActive(false)}>
+								Productos
+							</Link>
 						</li>
 						<li
 							className={getClassName(
@@ -69,7 +85,11 @@ function NavMenu({
 								pathname.startsWith('/reportes') &&
 									'bg-barber-red'
 							)}>
-							<Link href="/reportes">Reportes</Link>
+							<Link
+								href="/reportes"
+								onClick={() => setIsMenuActive(false)}>
+								Reportes
+							</Link>
 						</li>
 					</ul>
 				</motion.div>

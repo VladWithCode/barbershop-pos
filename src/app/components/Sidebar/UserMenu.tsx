@@ -29,14 +29,16 @@ function UserMenu({
 						<li>
 							<Link
 								className="font-bold uppercase"
-								href="/usuario">
+								href="/usuario"
+								onClick={() => setIsUserMenuActive(false)}>
 								Mi usuario
 							</Link>
 						</li>
 						<li>
 							<Link
 								className="font-bold uppercase"
-								href="/logout">
+								href="/logout"
+								onClick={() => setIsUserMenuActive(false)}>
 								Cerrar sesión
 							</Link>
 						</li>
