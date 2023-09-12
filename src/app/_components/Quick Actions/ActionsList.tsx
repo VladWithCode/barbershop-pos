@@ -26,7 +26,7 @@ function ActionsList() {
 
 			<div className="flex w-full overflow-auto gap-x-4">
 				{QuickActions.map((action, index) => (
-					<Action action={{ ...action, id: index }} />
+					<Action action={{ ...action, id: index }} key={index} />
 				))}
 			</div>
 		</div>

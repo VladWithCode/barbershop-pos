@@ -41,7 +41,7 @@ function Menu() {
 
 			<div className="grid grid-cols-3 gap-2">
 				{MenuOptions.map((option, index) => (
-					<Option option={{ ...option, id: index }} />
+					<Option option={{ ...option, id: index }} key={index} />
 				))}
 			</div>
 		</div>
