@@ -1,5 +1,5 @@
-import Menu from './components/Menu/Menu';
-import ActionsList from './components/Quick Actions/ActionsList';
+import Menu from './_components/Menu/Menu';
+import ActionsList from './_components/Quick Actions/ActionsList';
 
 export default function Home() {
 	return (
