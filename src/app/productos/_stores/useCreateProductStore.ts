@@ -9,6 +9,7 @@ const INITIAL_CREATE_PRODUCT_STATE = {
 	sell_price_credit: 0,
 	sale_units: 0,
 	supply_units: 0,
+	picture: null,
 };
 
 const useCreateProductStore = create<TCreateProductStore>(set => ({
@@ -21,5 +22,6 @@ export default useCreateProductStore;
 export type TCreateProductFields = typeof INITIAL_CREATE_PRODUCT_STATE;
 
 export type TCreateProductStore = TCreateProductFields & {
-	setField: (field: string, value: string | number) => void;
+	picture: File | null;
+	setField: (field: string, value: string | number | File) => void;
 };
