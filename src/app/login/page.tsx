@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import InputGroup from '../components/InputGroup';
+import InputGroup from '../_components/InputGroup';
 import * as AuthService from '../auth/auth.service';
 import Cookies from 'js-cookie';
 import globals from '../globals';
