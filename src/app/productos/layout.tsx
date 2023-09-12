@@ -1,19 +1,12 @@
 import { Metadata } from 'next';
 import React from 'react';
-import SearchBar from './_components/Controls/SearchBar';
 
 export const metadata: Metadata = {
 	title: 'The Boss | Productos',
 };
 
 function ProductLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<>
-			<SearchBar />
-
-			{children}
-		</>
-	);
+	return <>{children}</>;
 }
 
 export default ProductLayout;
