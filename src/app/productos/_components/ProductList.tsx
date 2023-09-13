@@ -17,7 +17,8 @@ function ProductList() {
 		async () => {
 			const response = await fetch(
 				globals.API_BASE_URL +
-					`/products?limit=16&search=${debouncedSearch}`
+					`/products?limit=16&search=${debouncedSearch}`,
+				{ mode: 'no-cors' }
 			);
 
 			if (!response.ok)
