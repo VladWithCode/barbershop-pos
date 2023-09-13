@@ -20,13 +20,15 @@ function ProductList() {
 					`/products?limit=16&search=${debouncedSearch}`,
 				{ mode: 'no-cors' }
 			);
+			const data = await response.json();
 
 			if (!response.ok)
-				throw new Error('Error recuperando los productos');
+				throw new Error(
+					data.message || 'Error recuperando los productos'
+				);
 
-			return await response.json();
-		},
-		{}
+			return data;
+		}
 	);
 
 	return (
