@@ -20,8 +20,7 @@ const useProducts = (options?: {
 			globals.API_BASE_URL +
 				`/products?limit=${options?.limit || 16}&skip=${
 					options?.skip || 0
-				}&search=${options?.search || ''}`,
-			{ mode: 'no-cors' }
+				}&search=${options?.search || ''}`
 		);
 		const data = await response.json();
 
