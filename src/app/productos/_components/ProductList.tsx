@@ -47,9 +47,7 @@ function ProductList() {
 
 			{isLoading ? (
 				<Loading />
-			) : isError && error ? (
-				<p>{(error as any).message}</p>
-			) : (
+			) : data ? (
 				<div className="grid grid-cols-2 max-h-[500px] lg:grid lg:flex-wrap gap-3 xl:gap-4 mx-auto overflow-y-auto">
 					{data?.map((p: any) => (
 						<ProductCard
@@ -60,7 +58,9 @@ function ProductList() {
 						/>
 					))}
 				</div>
-			)}
+			) : isError && error ? (
+				<p>{(error as any).message}</p>
+			) : null}
 		</div>
 	);
 }
