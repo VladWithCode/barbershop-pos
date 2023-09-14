@@ -32,30 +32,6 @@ function Sidebar() {
 					isMenuActive={isNavMenuActive}
 					setIsMenuActive={setIsNavMenuActive}
 				/>
-
-				<div
-					className={getClassName(
-						'hidden relative left-0 right-0 lg:border-r-2 border-zinc-900 z-0 transition-[top] duration-200 lg:block',
-						isNavMenuActive ? 'top-0 ' : '-top-64'
-					)}>
-					<button
-						onClick={() => setIsNavMenuActive(false)}
-						className={getClassName(
-							'fixed top-0 left-0 h-screen w-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm -z-10',
-							isNavMenuActive ? 'block' : 'hidden'
-						)}
-					/>
-
-					<Image
-						src="/logo-w.webp"
-						width={128}
-						height={128}
-						alt="The Boss Logo"
-						className="hidden mx-auto w-20 h-20"
-					/>
-
-					{/* Contents change depending on section */}
-				</div>
 			</div>
 			<div className="h-24 w-full bg-transparent mb-px"></div>
 		</>
