@@ -14,22 +14,22 @@ const MenuOptions = [
 	},
 	{
 		name: 'Clientes',
-		icon: 'pencil',
+		icon: 'customers',
 		href: '/clientes',
 	},
 	{
 		name: 'Creditos',
-		icon: 'plus',
+		icon: 'credit_card',
 		href: '/creditos',
 	},
 	{
 		name: 'Reportes',
-		icon: 'credit_card',
+		icon: 'clipboard',
 		href: '/reportes',
 	},
 	{
 		name: 'Gastos',
-		icon: 'pencil',
+		icon: 'bill',
 		href: '/gastos',
 	},
 ];
