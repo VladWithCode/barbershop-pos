@@ -32,7 +32,7 @@ function InputGroup({
 				name={name}
 				id={name}
 				className={getClassName(
-					'bg-transparent border-2 border-transparent border-b-zinc-50 focus:outline-none focus:ring-0 focus:border-barber-red focus:rounded-sm transition duration-75',
+					'bg-transparent border-2 border-transparent border-b-zinc-950 focus:outline-none focus:ring-0 focus:border-barber-red focus:rounded-sm transition duration-75',
 					className
 				)}
 				value={value}
