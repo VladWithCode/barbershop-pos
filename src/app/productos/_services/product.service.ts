@@ -12,6 +12,32 @@ export type Product = {
 	category: string;
 };
 
+export async function getProducts({
+	search,
+	skip,
+	limit,
+}: {
+	search?: string;
+	skip?: number;
+	limit?: number;
+}) {
+	const searchParams = new URLSearchParams({
+		search: search || '',
+		skip: skip?.toString() || '0',
+		limit: limit?.toString() || '0',
+	});
+
+	const response = await AxiosInstance.get(
+		'/products?' + searchParams.toString()
+	);
+
+	if (response.status !== 200) {
+		throw new Error('Error al obtener los productos');
+	}
+
+	return response.data;
+}
+
 export async function createProduct(productData: Product) {
 	const response = await AxiosInstance.post(
 		globals.API_BASE_URL + '/products',
