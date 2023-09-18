@@ -29,7 +29,7 @@ function UserMenu({
 						<li>
 							<Link
 								className="font-bold uppercase"
-								href="/usuario"
+								href="/usuarios/me"
 								onClick={() => setIsUserMenuActive(false)}>
 								Mi usuario
 							</Link>
