@@ -6,12 +6,14 @@ const INITIAL_AUTH_STATE = {
 		role: '',
 	},
 	token: '',
+	didValidate: false,
 };
 
 const useAuthStore = create<TAuthStore>(
 	set => ({
 		...INITIAL_AUTH_STATE,
 
+		setDidValidate: didValidate => set(() => ({ didValidate })),
 		setToken: token => set(() => ({ token })),
 		setUser: user => set(() => ({ user })),
 		setUserField: (field, value) =>
@@ -32,6 +34,7 @@ export type TUserRoles = 'admin' | 'user';
 export type TAuthFields = typeof INITIAL_AUTH_STATE;
 
 export type TAuthStore = TAuthFields & {
+	setDidValidate: (didValidate: boolean) => void;
 	setToken: (token: string) => void;
 	setUser: (user: TUser) => void;
 	setUserField: (field: string, value: string | number) => void;
