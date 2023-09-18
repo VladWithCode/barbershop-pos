@@ -22,7 +22,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={font.className}>
-				<div className="relative lg:flex flex-wrap h-full z-0">
+				<div className="relative h-full z-0">
 					<GlobalQueryProvider>
 						<Sidebar />
 						{children}
