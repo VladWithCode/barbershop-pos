@@ -3,22 +3,38 @@ import React, { useState } from 'react';
 import InputGroup from '../_components/InputGroup';
 import * as AuthService from '../auth/auth.service';
 import Cookies from 'js-cookie';
-import globals from '../globals';
+import useAuthStore, { TUserRoles } from '../auth/_stores/useAuthStore';
+import { useRouter } from 'next/navigation';
+import AxiosInstance from '../_utils/api';
 
 function Login() {
+	const router = useRouter();
 	const [loginError, setLoginError] = useState('');
+	const setToken = useAuthStore(state => state.setToken);
+	const setUser = useAuthStore(state => state.setUser);
 	const { mutateAsync } = AuthService.useLogin();
+
 	const onLoginError = (e: any) => {
 		console.log(e);
 		setLoginError(e.message);
 	};
 	const onLoginSuccess = (userData: {
 		access_token: string;
-		user: { name: string; role: string };
-	}) => {};
+		user: { name: string; role: TUserRoles };
+	}) => {
+		setUser(userData.user);
+		setToken(userData.access_token);
+		Cookies.set('access_token', userData.access_token, {
+			expires: 1,
+		});
+		AxiosInstance.defaults.headers.common[
+			'Authorization'
+		] = `Bearer ${userData.access_token}`;
+
+		router.replace('/');
+	};
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [users, setUsers] = useState<Record<string, any>[]>([]);
 
 	return (
 		<div className="w-full h-page overflow-y-auto overflow-x-hidden">
@@ -37,12 +53,21 @@ function Login() {
 				onSubmit={async e => {
 					e.preventDefault();
 
-					const response = await mutateAsync({
-						username,
-						password,
-					});
-
-					console.log(response);
+					try {
+						const response = await mutateAsync(
+							{
+								username,
+								password,
+							},
+							{
+								onSuccess: onLoginSuccess,
+								onError: onLoginError,
+							}
+						);
+					} catch (e: any) {
+						console.error(e);
+						setLoginError(e.message);
+					}
 				}}>
 				<InputGroup
 					label="Nombre de Usuario"
