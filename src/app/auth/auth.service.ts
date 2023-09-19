@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import AxiosInstance from '../_utils/api';
+import Cookies from 'js-cookie';
+import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
+import type { Router } from 'next/router';
 
 async function loginMutateFn(loginData: {
 	username: string;
@@ -22,4 +25,9 @@ export async function validateLogin(token?: string) {
 	if (response.status !== 200) throw new Error(response.data.message);
 
 	return response.data;
+}
+
+export function logout() {
+	Cookies.remove('access_token');
+	AxiosInstance.defaults.headers.common['Authorization'] = '';
 }
