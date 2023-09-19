@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import useAuthStore, { TUserRoles } from '../auth/_stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import AxiosInstance from '../_utils/api';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function Login() {
 	const router = useRouter();
@@ -15,8 +16,8 @@ function Login() {
 	const { mutateAsync } = AuthService.useLogin();
 
 	const onLoginError = (e: any) => {
-		console.log(e);
-		setLoginError(e.message);
+		const message = e?.response?.data?.message || 'Error al iniciar sesión';
+		setLoginError(message);
 	};
 	const onLoginSuccess = (userData: {
 		access_token: string;
@@ -39,22 +40,13 @@ function Login() {
 	return (
 		<div className="w-full h-page overflow-y-auto overflow-x-hidden">
 			<h1 className="font-light text-xl mt-6 mb-2 px-4">Inicia Sesión</h1>
-
-			<div className="w-11/12 my-8 mx-auto">
-				{loginError && (
-					<p className="text-barber-red font-bold text-md">
-						{loginError}
-					</p>
-				)}
-			</div>
-
 			<form
-				className="w-fit max-w-[95%] py-6 px-8 mx-auto mt-8 bg-barber-red shadow-sm shadow-rose-800 space-y-4 rounded-md"
+				className="w-fit max-w-[95%] py-6 px-8 mx-auto mt-8 bg-zinc-300 space-y-4 rounded-md text-zinc-950"
 				onSubmit={async e => {
 					e.preventDefault();
 
 					try {
-						const response = await mutateAsync(
+						await mutateAsync(
 							{
 								username,
 								password,
@@ -64,10 +56,7 @@ function Login() {
 								onError: onLoginError,
 							}
 						);
-					} catch (e: any) {
-						console.error(e);
-						setLoginError(e.message);
-					}
+					} catch (e) {}
 				}}>
 				<InputGroup
 					label="Nombre de Usuario"
@@ -81,9 +70,20 @@ function Login() {
 					onChange={({ target }) => setPassword(target.value)}
 				/>
 
+				<AnimatePresence>
+					{loginError?.length > 0 && (
+						<motion.p
+							className="text-red-500 font-medium"
+							initial={{ maxHeight: '0%' }}
+							animate={{ maxHeight: '100vh' }}>
+							{loginError || 'Error al iniciar sesión'}
+						</motion.p>
+					)}
+				</AnimatePresence>
+
 				<button
 					type="submit"
-					className="w-full py-2 text-white bg-barber-red hover:bg-barber-red">
+					className="block ml-auto bg-zinc-800 text-zinc-50 px-4 py-2 rounded-sm hover:bg-zinc-700">
 					Iniciar Sesión
 				</button>
 			</form>
