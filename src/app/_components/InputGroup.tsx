@@ -24,7 +24,7 @@ function InputGroup({
 } & React.InputHTMLAttributes<HTMLInputElement>) {
 	return (
 		<div className="flex flex-col gap-y-1">
-			<label htmlFor={name} className="text-sm font-medium">
+			<label htmlFor={name} className="font-medium text-current">
 				{label}
 			</label>
 			<input
@@ -32,7 +32,7 @@ function InputGroup({
 				name={name}
 				id={name}
 				className={getClassName(
-					'bg-transparent border-2 border-transparent border-b-zinc-950 focus:outline-none focus:ring-0 focus:border-barber-red focus:rounded-sm transition duration-75',
+					'max-w-full bg-transparent py-1 border-2 border-transparent border-b-zinc-950 focus:rounded focus:ring-0 focus:border-zinc-50 focus:bg-zinc-800 focus:text-zinc-50',
 					className
 				)}
 				value={value}
