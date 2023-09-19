@@ -4,10 +4,10 @@ import { CustomerSelect, UserSelect } from '../_components/SaleSelect';
 import AddModal from '../_components/AddModal';
 import { AnimatePresence } from 'framer-motion';
 import Select from '@/app/_components/Forms/Select';
-import InputWithDefault from '@/app/_components/Forms/InputWithDefault';
+import CurrencyInput from '@/app/_components/Forms/CurrencyInput';
 import useCreateSaleStore from '../_stores/useCreateSaleStore';
-import { numberToPrice } from '@/app/_utils/helpers';
 import SaleProducts from '../_components/SaleProducts';
+import { useCreateSale } from '../_services/sale.service';
 
 const PaymentMethods = [
 	{ id: 'PM-01', label: 'Efectivo', value: 'cash' },
@@ -22,9 +22,15 @@ const PaymentTypes = [
 
 function NuevaVenta() {
 	const [isAddModalActive, setIsAddModalActive] = React.useState(false);
-	const { setField, setDeposit, addProduct, ...fields } = useCreateSaleStore(
-		state => state
-	);
+	const {
+		setField,
+		setDeposit,
+		setPaymentType,
+		addProduct,
+		removeProduct,
+		...fields
+	} = useCreateSaleStore(state => state);
+	const {} = useCreateSale();
 
 	const handleSelectChange = (opt: any, id: string) => {
 		setField(id, opt.value);
@@ -78,7 +84,7 @@ function NuevaVenta() {
 							<Select
 								id="payment_type"
 								options={PaymentTypes}
-								onSelect={handleSelectChange}
+								onSelect={opt => setPaymentType(opt.value)}
 								defaultValue="PT-01"
 							/>
 						</div>
@@ -87,8 +93,10 @@ function NuevaVenta() {
 					{/* Display inputs based on payment_type */}
 					{fields.payment_type === 'credit' ? (
 						<CreditSaleFields
+							commission={fields.commission}
 							deposit={fields.deposit}
 							installment={fields.installment}
+							next_payment_date={fields.next_payment_date}
 							setField={setField}
 							setDeposit={setDeposit}
 							handleInputChange={handleInputChange}
@@ -112,8 +120,14 @@ function NuevaVenta() {
 				</form>
 				<SaleProducts
 					handleAddClick={() => setIsAddModalActive(true)}
+					handleRemoveClick={removeProduct}
 					products={fields.products}
 					total={fields.total}
+					priceKey={
+						fields.payment_type === 'cash'
+							? 'sell_price_cash'
+							: 'sell_price_credit'
+					}
 				/>
 			</div>
 
@@ -147,23 +161,21 @@ function CashSaleFields({
 		<div className="flex gap-x-3">
 			<div className="w-1/2 grow-0">
 				<p className="text-sm font-medium">Cantidad anticipo</p>
-				<InputWithDefault
+				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="deposito"
 					type="number"
 					value={deposit}
-					defaultValue={0}
 					onChange={value => setDeposit(+value)}
 				/>
 			</div>
 			<div className="w-1/2 grow-0">
 				<p className="text-sm font-medium">Comision</p>
-				<InputWithDefault
+				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="commission"
 					type="number"
 					value={commission}
-					defaultValue={0}
 					onChange={handleInputChange}
 				/>
 			</div>
@@ -174,12 +186,16 @@ function CashSaleFields({
 function CreditSaleFields({
 	deposit,
 	installment,
+	commission,
+	next_payment_date,
 	setField,
 	setDeposit,
 	handleInputChange,
 }: {
 	deposit: number;
 	installment: number;
+	commission: number;
+	next_payment_date: string;
 	setField: (field: string, value: any) => void;
 	setDeposit: (value: number) => void;
 	handleInputChange: (value: string | number, id: string) => void;
@@ -188,23 +204,21 @@ function CreditSaleFields({
 		<div className="flex gap-x-3">
 			<div className="w-1/4 grow-0">
 				<p className="text-sm font-medium">Cantidad anticipo</p>
-				<InputWithDefault
+				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="deposit"
 					type="number"
 					value={deposit}
-					defaultValue={0}
 					onChange={value => setDeposit(+value)}
 				/>
 			</div>
 			<div className="w-1/4 grow-0">
 				<p className="text-sm font-medium">Cantidad p/quincena</p>
-				<InputWithDefault
+				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="installment"
 					type="number"
 					value={installment}
-					defaultValue={0}
 					onChange={handleInputChange}
 				/>
 			</div>
@@ -215,6 +229,7 @@ function CreditSaleFields({
 					type="date"
 					name="next_payment_date"
 					id="next_payment_date"
+					value={next_payment_date}
 					onChange={e =>
 						setField('next_payment_date', e.target.value)
 					}
@@ -227,6 +242,7 @@ function CreditSaleFields({
 					type="number"
 					name="commission"
 					id="commission"
+					value={commission}
 					onChange={e => setField('commission', e.target.value)}
 				/>
 			</div>
