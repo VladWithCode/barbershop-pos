@@ -6,7 +6,8 @@ export type Product = {
 	sell_price_credit: number;
 	sell_price_cash: number;
 	picture: string;
-	stock_id: string;
+	stock_entry_id: string;
+	sell_price: string;
 	qty: number;
 };
 
@@ -28,7 +29,9 @@ export type CreateSaleState = {
 
 	setField: (field: string, value: any) => void;
 	setDeposit: (value: number) => void;
+	setPaymentType: (paymentType: PaymentType) => void;
 	addProduct: (product: Product & { default_sale_stock_id: string }) => void;
+	removeProduct: (id: string) => void;
 };
 
 export const PaymentTypes = {
@@ -60,22 +63,43 @@ const useCreateSaleStore = createWithEqualityFn<CreateSaleState>(
 		...INITIAL_CREATE_SALE_STATE,
 
 		setField: (field: string, value: any) => {
-			if (field === 'deposit' || field === 'installment')
-				return set({ [field]: +value * 100 });
-
 			set({ [field]: value });
+		},
+
+		setPaymentType: (paymentType: PaymentType) => {
+			const { products, deposit } = get();
+			const sellPriceKey =
+				paymentType === PaymentTypes.CASH
+					? 'sell_price_cash'
+					: 'sell_price_credit';
+
+			let newTotal = 0;
+			let newInstallment = 0;
+
+			for (let p of products) {
+				newTotal += p.qty * p[sellPriceKey];
+			}
+
+			if (paymentType === PaymentTypes.CREDIT) {
+				newInstallment = Math.ceil((newTotal - deposit) / 6);
+			}
+
+			set({
+				payment_type: paymentType,
+				total: newTotal,
+				installment: newInstallment,
+			});
 		},
 
 		setDeposit(value: number) {
 			const { payment_type, total } = get();
-			const deposit = value * 100;
 
 			if (payment_type === PaymentTypes.CASH) {
-				return set({ deposit, installment: 0 });
+				return set({ deposit: value, installment: 0 });
 			}
 
-			const installment = Math.ceil((total - deposit) / 6);
-			set({ deposit, installment });
+			const installment = Math.ceil((total - value) / 6);
+			set({ deposit: value, installment });
 		},
 
 		addProduct: product => {
@@ -122,10 +146,10 @@ const useCreateSaleStore = createWithEqualityFn<CreateSaleState>(
 				const newProduct = {
 					_id: product._id,
 					name: product.name,
-					sell_price_credit: product.sell_price_credit,
-					sell_price_cash: product.sell_price_cash,
+					sell_price_credit: product.sell_price_credit / 100,
+					sell_price_cash: product.sell_price_cash / 100,
 					picture: product.picture,
-					stock_id: product.default_sale_stock_id,
+					stock_entry_id: product.default_sale_stock_id,
 					qty: 1,
 				};
 
@@ -141,6 +165,35 @@ const useCreateSaleStore = createWithEqualityFn<CreateSaleState>(
 			}
 
 			set({ ...newState, total: newTotal });
+		},
+
+		removeProduct: (id: string) => {
+			const { products, payment_type, deposit } = get();
+			// Get the correct sell price key depending on the payment type
+			const sellPriceKey =
+				payment_type === PaymentTypes.CASH
+					? 'sell_price_cash'
+					: 'sell_price_credit';
+
+			let newTotal = 0;
+			let newInstallment = 0;
+
+			const newProducts = products.filter(p => {
+				if (p._id === id) return false;
+
+				newTotal += p.qty * p[sellPriceKey];
+				return true;
+			});
+
+			if (payment_type === PaymentTypes.CREDIT) {
+				newInstallment = Math.ceil((newTotal - deposit) / 6);
+			}
+
+			set({
+				products: newProducts,
+				total: newTotal,
+				installment: newInstallment,
+			});
 		},
 	}),
 	Object.is
