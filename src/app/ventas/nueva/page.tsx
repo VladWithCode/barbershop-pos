@@ -8,6 +8,8 @@ import CurrencyInput from '@/app/_components/Forms/CurrencyInput';
 import useCreateSaleStore from '../_stores/useCreateSaleStore';
 import SaleProducts from '../_components/SaleProducts';
 import { useCreateSale } from '../_services/sale.service';
+import { useToast } from '@/app/_components/Toast/Toast';
+import { useRouter } from 'next/navigation';
 
 const PaymentMethods = [
 	{ id: 'PM-01', label: 'Efectivo', value: 'cash' },
@@ -21,6 +23,7 @@ const PaymentTypes = [
 ];
 
 function NuevaVenta() {
+	const redirect = useRouter().push;
 	const [isAddModalActive, setIsAddModalActive] = React.useState(false);
 	const {
 		setField,
@@ -28,9 +31,11 @@ function NuevaVenta() {
 		setPaymentType,
 		addProduct,
 		removeProduct,
+		clearState,
 		...fields
 	} = useCreateSaleStore(state => state);
-	const {} = useCreateSale();
+	const { mutateAsync, isLoading } = useCreateSale();
+	const { pushToast } = useToast();
 
 	const handleSelectChange = (opt: any, id: string) => {
 		setField(id, opt.value);
@@ -43,16 +48,29 @@ function NuevaVenta() {
 		addProduct(product);
 	};
 
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		await mutateAsync(fields, {
+			onSuccess: () => {
+				pushToast({
+					message: 'Venta realizada con éxito',
+					type: 'success',
+				});
+
+				clearState();
+
+				// TODO: Redirect to sale detail page
+				// redirect('/ventas/' + sale._id);
+			},
+		});
+	};
+
 	return (
 		<div className="relative w-full h-page z-0">
 			<h1 className="text-lg px-8 pt-2 pb-8">Registrar venta nueva</h1>
 			<div className="flex">
 				<form
-					onSubmit={e => {
-						e.preventDefault();
-
-						console.log(fields);
-					}}
+					onSubmit={handleSubmit}
 					className="w-2/5 mx-auto py-2 px-4 bg-zinc-300 text-zinc-950 rounded space-y-4 overflow-hidden">
 					<div className="relative flex flex-col z-20">
 						<p className="font-medium">Cliente</p>
@@ -113,7 +131,8 @@ function NuevaVenta() {
 					<div className="flex">
 						<button
 							className="bg-zinc-800 text-zinc-50 px-4 py-2 rounded-sm ml-auto hover:bg-zinc-700"
-							type="submit">
+							type="submit"
+							disabled={isLoading}>
 							Realizar Venta
 						</button>
 					</div>
@@ -237,13 +256,12 @@ function CreditSaleFields({
 			</div>
 			<div className="w-1/4 shrink grow-0">
 				<p className="text-sm font-medium">Comisión</p>
-				<input
-					className="w-full bg-transparent border-2 border-transparent border-b-zinc-950 focus:ring-0 focus:border-zinc-50 focus:bg-zinc-800 focus:text-zinc-50 focus:rounded"
-					type="number"
+				<CurrencyInput
+					className="text-right mt-2 w-full"
 					name="commission"
-					id="commission"
+					type="number"
 					value={commission}
-					onChange={e => setField('commission', e.target.value)}
+					onChange={handleInputChange}
 				/>
 			</div>
 		</div>
