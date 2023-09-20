@@ -3,7 +3,7 @@ import ActionsMenu from './_components/Menu/ActionsMenu';
 
 export default function products() {
 	return (
-		<div className="w-full h-page">
+		<div className="w-full h-page overflow-hidden">
 			{/* <ControlWrapper /> */}
 			<ActionsMenu />
 
