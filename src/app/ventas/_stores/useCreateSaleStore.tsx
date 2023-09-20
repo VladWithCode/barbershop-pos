@@ -7,7 +7,7 @@ export type Product = {
 	sell_price_cash: number;
 	picture: string;
 	stock_entry_id: string;
-	sell_price: string;
+	sale_price: string;
 	qty: number;
 };
 
@@ -32,6 +32,7 @@ export type CreateSaleState = {
 	setPaymentType: (paymentType: PaymentType) => void;
 	addProduct: (product: Product & { default_sale_stock_id: string }) => void;
 	removeProduct: (id: string) => void;
+	clearState: () => void;
 };
 
 export const PaymentTypes = {
@@ -194,6 +195,10 @@ const useCreateSaleStore = createWithEqualityFn<CreateSaleState>(
 				total: newTotal,
 				installment: newInstallment,
 			});
+		},
+
+		clearState: () => {
+			set(INITIAL_CREATE_SALE_STATE);
 		},
 	}),
 	Object.is
