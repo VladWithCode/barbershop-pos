@@ -19,7 +19,7 @@ function ProductList() {
 
 	useDebounce(() => setDebouncedSearch(search), 700, [search]);
 
-	const { data, error, isLoading, isError } = useQuery(
+	const { error, isLoading, isError } = useQuery(
 		['products', debouncedSearch, PAGE_LIMIT, page],
 		() =>
 			getProducts({
@@ -32,6 +32,11 @@ function ProductList() {
 				return data;
 			})
 	);
+
+	useEffect(() => {
+		setProducts([]);
+		setPage(0);
+	}, [debouncedSearch]);
 
 	useEffect(() => {
 		if (inView) {
