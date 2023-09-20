@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import AxiosInstance from '../_utils/api';
 import Cookies from 'js-cookie';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
-import type { Router } from 'next/router';
 
 async function loginMutateFn(loginData: {
 	username: string;
@@ -11,6 +9,11 @@ async function loginMutateFn(loginData: {
 	const response = await AxiosInstance.post('/auth/login', loginData);
 
 	if (response.status !== 201) throw new Error(response.data.message);
+
+	// Update the default headers with the new token
+	AxiosInstance.defaults.headers.common[
+		'Authorization'
+	] = `Bearer ${response.data.token}`;
 
 	return response.data;
 }
@@ -23,6 +26,11 @@ export async function validateLogin(token?: string) {
 	});
 
 	if (response.status !== 200) throw new Error(response.data.message);
+
+	// Update the default headers with the new token
+	AxiosInstance.defaults.headers.common[
+		'Authorization'
+	] = `Bearer ${response.data.token}`;
 
 	return response.data;
 }
