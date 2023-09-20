@@ -4,7 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useAuth from '../auth/_hooks/useAuth';
 import AxiosInstance from '../_utils/api';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 function GlobalQueryProvider({ children }: React.PropsWithChildren) {
 	const { token } = useAuth();
