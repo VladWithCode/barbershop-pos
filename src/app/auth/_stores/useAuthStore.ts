@@ -7,6 +7,7 @@ const INITIAL_AUTH_STATE = {
 	},
 	token: '',
 	didValidate: false,
+	isValidating: false,
 };
 
 const useAuthStore = create<TAuthStore>(
@@ -18,6 +19,7 @@ const useAuthStore = create<TAuthStore>(
 		setUser: user => set(() => ({ user })),
 		setUserField: (field, value) =>
 			set(state => ({ user: { ...state.user, [field]: value } })),
+		setIsValidating: isValidating => set(() => ({ isValidating })),
 	}),
 	Object.is
 );
@@ -38,4 +40,5 @@ export type TAuthStore = TAuthFields & {
 	setToken: (token: string) => void;
 	setUser: (user: TUser) => void;
 	setUserField: (field: string, value: string | number) => void;
+	setIsValidating: (isValidating: boolean) => void;
 };
