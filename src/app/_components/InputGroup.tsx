@@ -69,7 +69,7 @@ export function TextArea({
 				name={name}
 				id={name}
 				className={getClassName(
-					'bg-transparent border-2 border-transparent border-b-zinc-50 focus:outline-none focus:ring-0 focus:border-barber-red focus:rounded-sm transition duration-75',
+					'bg-transparent border-2 border-transparent border-b-current focus:outline-none focus:ring-0 focus:border-zinc-50 focus:bg-zinc-800 focus:text-zinc-50 focus:rounded-sm transition duration-75',
 					className
 				)}
 				value={value}
@@ -113,7 +113,7 @@ export function FileInput({
 		<label
 			htmlFor={name}
 			className={getClassName(
-				'flex justify-center items-center h-32 border-2 border-dashed border-zinc-50 text-xs text-center font-medium px-4 rounded-sm',
+				'flex justify-center items-center h-32 border-2 border-dashed border-current text-xs text-center font-medium px-4 rounded-sm',
 				isDragginOver && 'border-barber-red',
 				className
 			)}
@@ -207,7 +207,7 @@ export function ImageInput({
 							}
 						}}></Image>
 				) : (
-					<svg className="w-24 h-24 m-auto fill-zinc-50">
+					<svg className="w-24 h-24 m-auto fill-current">
 						<use href="/sprites.svg#cologne"></use>
 					</svg>
 				)}
