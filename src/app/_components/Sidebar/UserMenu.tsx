@@ -2,9 +2,8 @@ import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { logout } from '@/app/auth/auth.service';
 import { useRouter } from 'next/navigation';
-import useAuthStore from '@/app/auth/_stores/useAuthStore';
+import useAuth from '@/app/auth/_hooks/useAuth';
 
 function UserMenu({
 	isUserMenuActive,
@@ -14,13 +13,11 @@ function UserMenu({
 	setIsUserMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const replace = useRouter().replace;
-	const user = useAuthStore(state => state.user);
-	const setUser = useAuthStore(state => state.setUser);
+	const { didValidate, logout } = useAuth();
 
 	const onLogout = () => {
 		setIsUserMenuActive(false);
 		logout();
-		setUser({ name: '', role: 'user' });
 		replace('/login');
 	};
 
@@ -40,7 +37,7 @@ function UserMenu({
 					}}>
 					<div className="fixed top-0 left-0 w-full h-full bg-zinc-900 bg-opacity-20 backdrop-blur-sm z-0"></div>
 					<ul className="relative flex flex-col py-4 px-6 justify-center w-full bg-zinc-950 text-zinc-50 z-10 gap-y-3">
-						{user.name?.length > 0 ? (
+						{didValidate ? (
 							<>
 								<li>
 									<Link
