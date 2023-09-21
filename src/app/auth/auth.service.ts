@@ -25,8 +25,10 @@ export async function validateLogin(token?: string) {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 
-	if (response.status !== 200) throw new Error(response.data.message);
-
+	if (response.status !== 200) {
+		logout();
+		throw new Error(response.data.message);
+	}
 	// Update the default headers with the new token
 	AxiosInstance.defaults.headers.common[
 		'Authorization'
