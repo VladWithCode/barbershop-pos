@@ -16,7 +16,11 @@ export default function AddModal({
 	onAdd: (product: {}) => void;
 }) {
 	const [search, setSearch] = React.useState('');
-	const { data, isError, isLoading } = useProducts({ search });
+	const {
+		data: { products },
+		isError,
+		isLoading,
+	} = useProducts({ search });
 	const handleProductClick = (product: any) => {
 		onAdd(product);
 		setIsActive(false);
@@ -60,8 +64,8 @@ export default function AddModal({
 								Ocurrio un error al recuperar los productos.
 							</p>
 						) : null}
-						{data && data.length > 0 ? (
-							data.map((p: any) => (
+						{products && products.length > 0 ? (
+							products.map((p: any) => (
 								<div
 									className="relative flex aspect-square cursor-pointer hover:scale-105 active:text-zinc-500"
 									key={p._id}
