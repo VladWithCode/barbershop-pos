@@ -62,7 +62,7 @@ function CreateForm({
 	return (
 		<form
 			onSubmit={_onSubmit}
-			className="bg-zinc-950 rounded px-6 py-4 text-zinc-50 space-y-4 max-w-lg">
+			className="bg-zinc-300 rounded px-6 py-4 text-zinc-950 space-y-4 max-w-lg">
 			<InputGroup label="Nombre" name="name" onChange={onChange} />
 			<TextArea
 				className="resize-y"
@@ -127,7 +127,7 @@ function CreateForm({
 			/>
 			<button
 				type="submit"
-				className="w-full py-2 bg-barber-red rounded-sm">
+				className="w-full py-2 bg-zinc-800 text-zinc-50 rounded hover:bg-zinc-700">
 				Guardar Producto
 			</button>
 		</form>
