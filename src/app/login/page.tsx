@@ -26,7 +26,7 @@ function Login() {
 		setUser(userData.user);
 		setToken(userData.access_token);
 		Cookies.set('access_token', userData.access_token, {
-			expires: 1,
+			expires: 1 / 4, // 6 hours (1 day = 1, 1/4 day = 6 hours)
 		});
 		AxiosInstance.defaults.headers.common[
 			'Authorization'
