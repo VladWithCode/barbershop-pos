@@ -54,7 +54,7 @@ function CreateForm({
 	return (
 		<form
 			onSubmit={_onSubmit}
-			className="bg-zinc-300 rounded px-6 py-4 text-zinc-950 space-y-4 max-w-lg">
+			className="w-full max-w-lg bg-zinc-300 rounded px-6 py-4 text-zinc-950 space-y-4">
 			<InputGroup
 				label="Nombre"
 				name="name"
@@ -69,7 +69,12 @@ function CreateForm({
 				value={fields.description}
 				onChange={onChange}
 			/>
-			<InputGroup label="Categoría" name="category" />
+			<InputGroup
+				label="Categoría"
+				name="category"
+				value={fields.category}
+				onChange={onChange}
+			/>
 			<InputGroup
 				label="Precio de compra"
 				name="buy_price"
@@ -121,6 +126,7 @@ function CreateForm({
 				label="Arrastra la imagen o haz click aquí"
 				name="picture"
 				className="w-1/2"
+				val={fields.picture}
 				onChange={e => {
 					const { files } = e.target;
 					if (!files) return;
