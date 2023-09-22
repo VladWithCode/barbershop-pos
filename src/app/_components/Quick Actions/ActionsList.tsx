@@ -15,7 +15,7 @@ const QuickActions = [
 	{
 		name: 'Entrada de Mercancia',
 		icon: 'pencil',
-		href: '/inventario/entrada',
+		href: '/productos/entrada',
 	},
 ];
 
