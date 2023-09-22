@@ -79,7 +79,7 @@ function NavMenu({
 								Productos
 							</Link>
 						</li>
-						<li
+						{/* <li
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/reportes') &&
@@ -90,7 +90,7 @@ function NavMenu({
 								onClick={() => setIsMenuActive(false)}>
 								Reportes
 							</Link>
-						</li>
+						</li> */}
 					</ul>
 				</motion.div>
 			) : null}
