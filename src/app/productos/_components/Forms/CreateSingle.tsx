@@ -11,6 +11,7 @@ function CreateSingle() {
 
 	return (
 		<CreateForm
+			onSubmit={console.log}
 			createProduct={createProduct}
 			uploadPicture={uploadPicture}
 		/>
