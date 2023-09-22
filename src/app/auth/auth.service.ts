@@ -26,18 +26,17 @@ export async function validateLogin(token?: string) {
 	});
 
 	if (response.status !== 200) {
-		// logout();
+		logout();
 		throw new Error(response.data.message);
 	}
 	// Update the default headers with the new token
-	AxiosInstance.defaults.headers.common[
-		'Authorization'
-	] = `Bearer ${response.data.token}`;
+	AxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 	return response.data;
 }
 
 export function logout() {
+	console.log('Logging out...');
 	Cookies.remove('access_token');
 	AxiosInstance.defaults.headers.common['Authorization'] = '';
 }
