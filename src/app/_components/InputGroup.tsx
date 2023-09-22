@@ -93,7 +93,6 @@ export function FileInput({
 }: {
 	label: string;
 	name: string;
-	value?: string | number;
 	type?: HTMLInputTypeAttribute;
 	onChange?: ChangeEventHandler<HTMLInputElement>;
 	clearInput?: boolean;
@@ -152,11 +151,12 @@ export function ImageInput({
 	type,
 	className,
 	onChange,
+	val,
 	...props
 }: {
 	label: string;
 	name: string;
-	value?: string | number;
+	val?: File | null;
 	type?: HTMLInputTypeAttribute;
 	onChange?: ChangeEventHandler<HTMLInputElement>;
 } & React.TextareaHTMLAttributes<HTMLInputElement>) {
@@ -176,6 +176,13 @@ export function ImageInput({
 		[]
 	);
 
+	useEffect(() => {
+		if (!val) {
+			setShouldClearInput(true);
+			setImg(null);
+		}
+	}, [val]);
+
 	return (
 		<div className="flex gap-x-2 h-32">
 			<FileInput
@@ -185,6 +192,7 @@ export function ImageInput({
 				onChange={_onChange}
 				className={className}
 				clearInput={shouldClearInput}
+				setClearInput={setShouldClearInput}
 				{...props}
 			/>
 			<div className="relative w-1/2 h-full flex">
@@ -204,6 +212,7 @@ export function ImageInput({
 
 							if (deleteConfirmed) {
 								setImg(null);
+								setShouldClearInput(true);
 							}
 						}}></Image>
 				) : (
