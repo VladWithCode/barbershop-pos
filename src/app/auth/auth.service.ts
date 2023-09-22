@@ -26,7 +26,7 @@ export async function validateLogin(token?: string) {
 	});
 
 	if (response.status !== 200) {
-		logout();
+		// logout();
 		throw new Error(response.data.message);
 	}
 	// Update the default headers with the new token
