@@ -66,7 +66,7 @@ export default function ProductTable({
 
 			<div className="h-96 space-y-4 overflow-hidden overflow-y-auto custom-scroll-bar scrol">
 				{TEST_PRODUCTS.map(p => (
-					<ProductElement product={p} />
+					<ProductElement product={p} key={p._id} />
 				))}
 			</div>
 		</div>
