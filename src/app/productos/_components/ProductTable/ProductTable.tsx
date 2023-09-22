@@ -1,6 +1,7 @@
 import { getClassName } from '@/app/_utils/helpers';
 import React from 'react';
 import ProductElement from './ProductElement';
+import EditProductForm from '../Forms/EditProductForm';
 
 type ProductTableProps = {
 	productListing: any[];
@@ -17,7 +18,7 @@ const TEST_PRODUCTS = [
 		sale_units: 1,
 		picture: 'has',
 	},
-	{
+	/* 	{
 		_id: '2',
 		name: 'Producto de Prueba 2',
 		sell_price_cash: 200,
@@ -44,7 +45,7 @@ const TEST_PRODUCTS = [
 		sell_price_cash: 500,
 		sale_units: 1,
 		picture: '',
-	},
+	}, */
 ];
 
 export default function ProductTable({
@@ -64,11 +65,31 @@ export default function ProductTable({
 				</h3>
 			) : null}
 
-			<div className="h-96 space-y-4 overflow-hidden overflow-y-auto custom-scroll-bar scrol">
+			<div className="relative h-96 space-y-4 overflow-hidden overflow-y-auto custom-scroll-bar">
+				{productListing.length === 0 ? (
+					<div className="flex flex-col items-center justify-center h-full">
+						<p className="text-zinc-500 font-medium">
+							Aun no has agregado productos
+						</p>
+					</div>
+				) : null}
 				{TEST_PRODUCTS.map(p => (
-					<ProductElement product={p} key={p._id} />
+					// <ListElement product={p} key={p._id} />
+					<EditProductElement product={p} />
 				))}
 			</div>
+		</div>
+	);
+}
+
+function ListElement({ product }: { product: any }) {
+	return <div className="relatve"></div>;
+}
+
+function EditProductElement({ product }: { product: any }) {
+	return (
+		<div className="absolute inset-0 w-full h-full flex items-center justify-center">
+			<EditProductForm product={product} handleEdit={console.log} />
 		</div>
 	);
 }
