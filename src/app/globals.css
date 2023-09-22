@@ -23,6 +23,8 @@ body {
 }
 
 .custom-scroll-bar {
+	scrollbar-gutter: stable;
+
 	&::-webkit-scrollbar {
 		@apply bg-zinc-400;
 		width: 10px;
