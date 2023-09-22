@@ -1,38 +1,37 @@
 import InputGroup, { TextArea, ImageInput } from '@/app/_components/InputGroup';
 import React, { useCallback } from 'react';
-import useCreateProductStore from '../../_stores/useCreateProductStore';
 import type {
 	useCreateProduct,
 	useUploadPicture,
 } from '../../_hooks/useProductMutations';
+import useForm from '@/app/_hooks/useForm';
 
 function CreateForm({
 	createProduct,
 	uploadPicture,
 	onSubmit,
 }: {
-	createProduct: ReturnType<typeof useCreateProduct>;
-	uploadPicture: ReturnType<typeof useUploadPicture>;
-	onSubmit?: React.FormEventHandler<HTMLFormElement>;
+	onSubmit: (data: any) => void;
+	createProduct?: ReturnType<typeof useCreateProduct>;
+	uploadPicture?: ReturnType<typeof useUploadPicture>;
 }) {
-	const {
-		name,
-		category,
-		buy_price,
-		description,
-		sale_units,
-		sell_price_cash,
-		sell_price_credit,
-		supply_units,
-		setField,
-	} = useCreateProductStore(state => state);
-
+	const [fields, setField, reset] = useForm({
+		name: '',
+		description: '',
+		category: '',
+		buy_price: 0,
+		sell_price_cash: 0,
+		sell_price_credit: 0,
+		sale_units: 0,
+		supply_units: 0,
+		picture: null,
+	});
 	const onChange = useCallback<
 		React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 	>(e => {
-		const { name, value } = e.target;
+		const { name, value, type } = e.target;
 
-		setField(name, value);
+		setField(name, type === 'number' ? +value : value);
 	}, []);
 
 	const _onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
@@ -40,35 +39,34 @@ function CreateForm({
 			e.preventDefault();
 
 			const productData = {
-				name,
-				description,
-				category,
-				buy_price: Number(buy_price),
-				sell_price_cash: Number(sell_price_cash),
-				sell_price_credit: Number(sell_price_credit),
-				sale_units: Number(sale_units),
-				supply_units: Number(supply_units),
+				...fields,
 			};
 
 			if (typeof onSubmit === 'function') {
-				onSubmit(e);
+				onSubmit(productData);
 			}
 
-			console.log(productData);
+			reset();
 		},
-		[onSubmit]
+		[onSubmit, fields]
 	);
 
 	return (
 		<form
 			onSubmit={_onSubmit}
 			className="bg-zinc-300 rounded px-6 py-4 text-zinc-950 space-y-4 max-w-lg">
-			<InputGroup label="Nombre" name="name" onChange={onChange} />
+			<InputGroup
+				label="Nombre"
+				name="name"
+				value={fields.name}
+				onChange={onChange}
+			/>
 			<TextArea
 				className="resize-y"
 				label="Descripcion"
 				name="description"
 				maxLength={300}
+				value={fields.description}
 				onChange={onChange}
 			/>
 			<InputGroup label="Categoría" name="category" />
@@ -76,6 +74,7 @@ function CreateForm({
 				label="Precio de compra"
 				name="buy_price"
 				type="number"
+				value={fields.buy_price}
 				onChange={onChange}
 			/>
 			<div className="flex gap-x-2 w-full justify-between">
@@ -84,6 +83,7 @@ function CreateForm({
 						label="Precio (credito)"
 						name="sell_price_credit"
 						type="number"
+						value={fields.sell_price_credit}
 						onChange={onChange}
 					/>
 				</div>
@@ -92,6 +92,7 @@ function CreateForm({
 						label="Precio (contado)"
 						name="sell_price_cash"
 						type="number"
+						value={fields.sell_price_cash}
 						onChange={onChange}
 					/>
 				</div>
@@ -102,6 +103,7 @@ function CreateForm({
 						label="Unidades (venta)"
 						name="sale_units"
 						type="number"
+						value={fields.sale_units}
 						onChange={onChange}
 					/>
 				</div>
@@ -110,6 +112,7 @@ function CreateForm({
 						label="Unidades (insumo)"
 						name="supply_units"
 						type="number"
+						value={fields.supply_units}
 						onChange={onChange}
 					/>
 				</div>
