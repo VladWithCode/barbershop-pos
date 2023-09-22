@@ -1,5 +1,5 @@
 import { getClassName } from '@/app/_utils/helpers';
-import React from 'react';
+import React, { useState } from 'react';
 import ProductElement from './ProductElement';
 import EditProductForm from '../Forms/EditProductForm';
 
@@ -83,6 +83,8 @@ export default function ProductTable({
 }
 
 function ListElement({ product }: { product: any }) {
+	const [isEditing, setIsEditing] = useState(false);
+
 	return <div className="relatve"></div>;
 }
 
