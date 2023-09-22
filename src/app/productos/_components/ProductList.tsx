@@ -1,48 +1,27 @@
 'use client';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import Loading from '@/app/_components/Loading/Loading';
 import useDebounce from '@/app/_hooks/useDebounce';
 import { getProducts } from '../_services/product.service';
-import { useInView } from 'react-intersection-observer';
 
-const PAGE_LIMIT = 16;
+const PAGE_LIMIT = 25; // Last 25 sold products
 
 function ProductList() {
-	// const isListEndVisible = useInView(listEndRef, { amount: 'some' });
-	const [ref, inView] = useInView({ threshold: 0 });
-	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState('');
 	const [debouncedSearch, setDebouncedSearch] = useState('');
-	const [products, setProducts] = useState<Record<string, any>[]>([]);
 
 	useDebounce(() => setDebouncedSearch(search), 700, [search]);
 
-	const { error, isLoading, isError } = useQuery(
-		['products', debouncedSearch, PAGE_LIMIT, page],
+	const { data, error, isLoading, isError } = useQuery(
+		['products', debouncedSearch, PAGE_LIMIT],
 		() =>
 			getProducts({
 				search: debouncedSearch,
 				limit: PAGE_LIMIT,
-				skip: page * PAGE_LIMIT,
-			}).then(data => {
-				console.log(data);
-				setProducts([...products, ...data.products]);
-				return data;
 			})
 	);
-
-	useEffect(() => {
-		setProducts([]);
-		setPage(0);
-	}, [debouncedSearch]);
-
-	useEffect(() => {
-		if (inView) {
-			setPage(page + 1);
-		}
-	}, [inView]);
 
 	return (
 		<div className="w-full h-full px-8 pt-2 overflow-hidden overflow-x-auto mb-6">
@@ -66,9 +45,9 @@ function ProductList() {
 				<p>{(error as any).message}</p>
 			) : null}
 
-			{products.length > 0 ? (
+			{data && data.products.length > 0 ? (
 				<div className="grid grid-cols-2 lg:grid-cols-4 max-h-[500px] xl:max-h-[700px] gap-3 xl:gap-4 mx-auto overflow-hidden overflow-y-auto custom-scroll-bar">
-					{products.map((p: any) => (
+					{data.products.map((p: any) => (
 						<ProductCard
 							_id={p._id}
 							name={p.name}
@@ -76,7 +55,6 @@ function ProductList() {
 							key={p._id}
 						/>
 					))}
-					<div className="h-px col-span-full" ref={ref}></div>
 				</div>
 			) : null}
 		</div>
