@@ -2,7 +2,15 @@ import { numberToPrice } from '@/app/_utils/helpers';
 import Image from 'next/image';
 import React, { useMemo } from 'react';
 
-export default function ProductElement({ product }: { product: any }) {
+export default function ProductElement({
+	product,
+	handleEditClick,
+	handleRemoveClick,
+}: {
+	product: any;
+	handleEditClick: () => void;
+	handleRemoveClick: () => void;
+}) {
 	const { price, qty } = useMemo(() => {
 		if (product.sell_price_cash && product.sale_units)
 			return { price: product.sell_price_cash, qty: product.sale_units };
@@ -35,8 +43,8 @@ export default function ProductElement({ product }: { product: any }) {
 						className="object-contain w-full h-full"
 						height={96}
 						width={96}
-						// src={product.picture}
-						src="/placeholder.webp"
+						src={product.picture}
+						// src="/placeholder.webp"
 						alt={'Image of ' + product.name}></Image>
 				</div>
 			)}
