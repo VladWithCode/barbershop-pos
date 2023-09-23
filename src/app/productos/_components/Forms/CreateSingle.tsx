@@ -3,7 +3,7 @@ import {
 	useCreateProduct,
 	useUploadPicture,
 } from '../../_hooks/useProductMutations';
-import CreateForm from './CreateForm';
+import CreateForm from './CreateProductForm';
 
 function CreateSingle() {
 	const createProduct = useCreateProduct();

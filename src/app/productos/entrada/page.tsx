@@ -3,7 +3,7 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductTable from '../_components/ProductTable/ProductTable';
-import CreateForm from '../_components/Forms/CreateForm';
+import CreateForm from '../_components/Forms/CreateProductForm';
 import ProductTypeSelector from '../_components/ProductTypeSelector';
 import useInventoryEntranceStore from '../_stores/useInventoryEntranceStore';
 

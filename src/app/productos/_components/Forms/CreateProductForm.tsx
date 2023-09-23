@@ -1,3 +1,4 @@
+'use client';
 import InputGroup, { TextArea, ImageInput } from '@/app/_components/InputGroup';
 import React, { useCallback } from 'react';
 import type {
