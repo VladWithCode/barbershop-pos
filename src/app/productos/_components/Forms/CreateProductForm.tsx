@@ -6,6 +6,7 @@ import type {
 	useUploadPicture,
 } from '../../_hooks/useProductMutations';
 import useForm from '@/app/_hooks/useForm';
+import { LabelledControlledInput } from '@/app/_components/Forms/ControlledInput';
 
 function CreateForm({
 	createProduct,
@@ -16,7 +17,7 @@ function CreateForm({
 	createProduct?: ReturnType<typeof useCreateProduct>;
 	uploadPicture?: ReturnType<typeof useUploadPicture>;
 }) {
-	const [fields, setField, reset] = useForm({
+	const [fields, onChange, setField, reset] = useForm({
 		name: '',
 		description: '',
 		category: '',
@@ -27,13 +28,6 @@ function CreateForm({
 		supply_units: 0,
 		picture: null,
 	});
-	const onChange = useCallback<
-		React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-	>(e => {
-		const { name, value, type } = e.target;
-
-		setField(name, type === 'number' ? +value : value);
-	}, []);
 
 	const _onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
 		e => {
@@ -62,11 +56,9 @@ function CreateForm({
 				value={fields.name}
 				onChange={onChange}
 			/>
-			<TextArea
-				className="resize-y"
+			<LabelledControlledInput
 				label="Descripcion"
 				name="description"
-				maxLength={300}
 				value={fields.description}
 				onChange={onChange}
 			/>
