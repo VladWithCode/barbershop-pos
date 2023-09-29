@@ -5,6 +5,7 @@ export type Customer = {
 	phone: string;
 	dob: string;
 	social_media?: string;
+	social_media_name: string;
 	address?: string;
 };
 
@@ -26,5 +27,15 @@ export async function getCustomerById(id: string) {
 
 export async function createCustomer(customerData: Customer) {
 	const response = await AxiosInstance.post('/customers', customerData);
+	return response.data;
+}
+
+export async function updateCustomer(id: string, customerData: CustomerDoc) {
+	const response = await AxiosInstance.put(`/customers/${id}`, customerData);
+	return response.data;
+}
+
+export async function deleteCustomer(id: string) {
+	const response = await AxiosInstance.delete(`/customers/${id}`);
 	return response.data;
 }
