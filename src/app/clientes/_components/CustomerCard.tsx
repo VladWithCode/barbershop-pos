@@ -8,9 +8,9 @@ export default function CustomerCard({
 	customer: Customer & { _id: string };
 }) {
 	return (
-		<div className="flex bg-rose-950 w-48 backdrop-blur-sm rounded py-1 px-2 justify-between group ">
-			<div className="grow shrink-0">
-				<p className="font-medium">{customer.fullname}</p>
+		<div className="flex bg-rose-950 backdrop-blur-sm rounded py-1 px-2 justify-between gap-x-2 group">
+			<div className="grow shrink-0 w-2/3">
+				<p className="font-medium truncate">{customer.fullname}</p>
 				<p className="text-xs font-light text-zinc-300">
 					{customer.phone}
 				</p>
