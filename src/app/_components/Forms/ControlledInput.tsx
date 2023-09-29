@@ -20,7 +20,7 @@ export default function ControlledInput({
 	return (
 		<input
 			className={getClassName(
-				'bg-transparent border-2 border-transparent border-b-zinc-400 focus:ring-0 focus:outline-none focus:border-zinc-100 focus:rounded focus:bg-zinc-800 focus:text-zinc-50',
+				'bg-transparent border-2 border-transparent border-b-zinc-400 px-2 py-1 focus:ring-0 focus:outline-none focus:border-zinc-100 focus:rounded focus:bg-zinc-800 focus:text-zinc-50',
 				className
 			)}
 			type={type}
@@ -42,7 +42,7 @@ export function LabelledControlledInput({
 	...props
 }: LabelledControlledInputProps) {
 	return (
-		<div className="flex flex-col gap-y-2">
+		<div className="max-w-full flex flex-col gap-y-1">
 			<label htmlFor="name" className="text-xs font-medium uppercase">
 				{label}
 			</label>
