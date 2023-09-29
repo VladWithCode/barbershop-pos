@@ -1,10 +1,14 @@
 import { getClassName } from '@/app/_utils/helpers';
-import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
+import React, {
+	ChangeEvent,
+	HTMLInputTypeAttribute,
+	InputHTMLAttributes,
+} from 'react';
 
 export type ControlledInputProps = {
 	name: string;
 	value: string;
-	onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	type?: HTMLInputTypeAttribute;
 	className?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
