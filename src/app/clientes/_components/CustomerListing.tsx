@@ -30,12 +30,12 @@ export default function CustomerListing() {
 	const { data, isLoading, isError, error } = useCustomers();
 
 	return (
-		<div className="flex flex-wrap gap-2">
+		<div className="grid grid-cols-3 gap-2">
 			{/* 			{TEST_USERS.map(customer => (
 				<CustomerCard customer={customer} />
 			))} */}
 			{data?.map(customer => (
-				<CustomerCard customer={customer} />
+				<CustomerCard customer={customer} key={customer._id} />
 			))}
 			{isLoading && <Loading />}
 			{isError && (
