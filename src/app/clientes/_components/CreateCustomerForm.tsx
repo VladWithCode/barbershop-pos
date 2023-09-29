@@ -21,17 +21,15 @@ export default function CreateCustomerForm({
 		fullname: '',
 		phone: '',
 		dob: '',
-		socialMedia: '',
+		social_media: '',
+		social_media_name: '',
 		address: '',
 	});
 
 	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			await mutateAsync({
-				...fields,
-				social_media: fields.socialMedia,
-			});
+			await mutateAsync(fields);
 			pushToast({ message: 'Cliente agregado', type: 'success' });
 			reset();
 		} catch (error) {
@@ -44,7 +42,7 @@ export default function CreateCustomerForm({
 		<form
 			onSubmit={onSubmit}
 			className={getClassName(
-				'w-96 bg-zinc-300 text-zinc-950 py-2 px-4 rounded space-y-4',
+				'max-w-md bg-zinc-300 text-zinc-950 py-2 px-4 rounded space-y-4',
 				className
 			)}>
 			<LabelledControlledInput
@@ -67,25 +65,27 @@ export default function CreateCustomerForm({
 				value={fields.dob}
 				type="date"
 			/>
-			{/* 			<LabelledControlledInput
-				label="Redes sociales"
-				name="socialMedia"
-				onChange={onChange}
-				value={fields.socialMedia}
-				type="text"
-				placeholder="Facebook, Instagram, Twitter, etc."
-			/> */}
-			<div className="flex flex-col gap-y-2">
-				<label
-					htmlFor="socialMedia"
-					className="text-xs font-medium uppercase">
-					Redes sociales
-				</label>
-				<Select
-					id="socialMedia"
-					options={SocialMediaOptions}
-					onSelect={opt => setField('socialMedia', opt.value)}
-				/>
+			<div className="flex justify-between">
+				<div className="flex flex-col gap-y-2 basis-1/3 grow-0 shrink">
+					<label
+						htmlFor="social_media"
+						className="text-xs font-medium uppercase">
+						Redes sociales
+					</label>
+					<Select
+						id="social_media"
+						options={SocialMediaOptions}
+						onSelect={opt => setField('social_media', opt.value)}
+					/>
+				</div>
+				<div className="space-y-1">
+					<LabelledControlledInput
+						label="Nombre (en Red Social)"
+						name="social_media_name"
+						onChange={onChange}
+						value={fields.social_media_name}
+					/>
+				</div>
 			</div>
 			<LabelledControlledInput
 				label="Domicilio"
@@ -106,7 +106,7 @@ export default function CreateCustomerForm({
 	);
 }
 
-const SocialMediaOptions = [
+export const SocialMediaOptions = [
 	{
 		id: 'facebook',
 		value: 'facebook',
