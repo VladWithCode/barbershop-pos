@@ -35,7 +35,7 @@ function NavMenu({
 						<li
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
-								pathname === '/' && 'bg-barber-red'
+								pathname === '/' && 'bg-rose-950'
 							)}>
 							<Link
 								href="/"
@@ -46,8 +46,7 @@ function NavMenu({
 						<li
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
-								pathname.startsWith('/ventas') &&
-									'bg-barber-red'
+								pathname.startsWith('/ventas') && 'bg-rose-950'
 							)}>
 							<Link
 								href="/ventas"
@@ -59,7 +58,7 @@ function NavMenu({
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/clientes') &&
-									'bg-barber-red'
+									'bg-rose-950'
 							)}>
 							<Link
 								href="/clientes"
@@ -71,7 +70,7 @@ function NavMenu({
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/productos') &&
-									'bg-barber-red'
+									'bg-rose-950'
 							)}>
 							<Link
 								href="/productos"
@@ -83,7 +82,7 @@ function NavMenu({
 							className={getClassName(
 								'relative px-3 py-1 font-bold uppercase rounded-sm group text-zinc-50',
 								pathname.startsWith('/reportes') &&
-									'bg-barber-red'
+									'bg-rose-950'
 							)}>
 							<Link
 								href="/reportes"
