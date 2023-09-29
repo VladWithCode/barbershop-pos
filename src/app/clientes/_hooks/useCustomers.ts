@@ -9,10 +9,12 @@ import {
 } from '../_services/CustomerService';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-export function useCustomers() {
+export function useCustomers(params?: { search?: string }) {
+	const { search } = params || {};
+
 	return useQuery<CustomerDoc[], { message: string; error?: any }>(
-		['customers', 'get'],
-		getCustomers
+		['customers', 'get', search],
+		() => getCustomers({ search: search })
 	);
 }
 

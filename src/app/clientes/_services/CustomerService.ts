@@ -13,8 +13,28 @@ export type CustomerDoc = Customer & {
 	_id: string;
 };
 
-export async function getCustomers() {
-	const response = await AxiosInstance.get<CustomerDoc[]>('/customers');
+export async function getCustomers({
+	search,
+	active = true,
+	limit,
+	offset,
+}: {
+	search?: string;
+	active?: boolean;
+	limit?: number;
+	offset?: number;
+}) {
+	const query = new URLSearchParams();
+	query.append('active', active.toString());
+
+	if (limit && limit > 0) query.append('limit', limit.toString());
+	if (offset && offset > 0) query.append('offset', offset.toString());
+	if (search) {
+		query.append('search', search);
+	}
+	const response = await AxiosInstance.get<CustomerDoc[]>(
+		'/customers?' + query.toString()
+	);
 
 	return response.data;
 }

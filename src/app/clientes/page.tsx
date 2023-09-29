@@ -1,8 +1,12 @@
+'use client';
 import Link from 'next/link';
 import React from 'react';
 import CustomerListing from './_components/CustomerListing';
+import Searchbar from './_components/Searchbar';
 
 export default function Clientes() {
+	const [search, setSearch] = React.useState('');
+
 	return (
 		<div className="h-page py-2">
 			<div className="h-full max-w-screen-xl grid grid-cols-12 auto-rows-fr justify-between mx-auto gap-x-4 overflow-hidden">
@@ -13,7 +17,9 @@ export default function Clientes() {
 						Lista de clientes registrados
 					</p>
 					<div className="py-2" />
-					<CustomerListing />
+					<Searchbar onSearch={s => setSearch(s)} />
+					<div className="py-2" />
+					<CustomerListing search={search} />
 				</div>
 
 				{/* Action List */}
