@@ -28,7 +28,7 @@ export default function products() {
 				</div>
 			</div>
 			<div className="col-span-5 px-4 py-2">
-				<h2 className="text-lg font-medium">Acciones</h2>
+				<h2 className="text-lg text-right">Acciones</h2>
 				<div className="py-2" />
 				<ActionsMenu />
 			</div>

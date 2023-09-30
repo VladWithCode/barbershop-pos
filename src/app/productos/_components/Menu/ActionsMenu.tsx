@@ -3,9 +3,9 @@ import React from 'react';
 
 function ActionsMenu() {
 	return (
-		<div className="grid grid-cols-3 justify-between gap-1 text-zinc-50">
+		<div className="flex flex-wrap w-fit gap-2 text-zinc-50 justify-end">
 			<Link
-				className="flex flex-col gap-y-2 justify-center items-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-rose-950 hover:scale-105 lg:w-32"
+				className="flex flex-col gap-y-2 justify-center items-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-rose-950 hover:scale-105"
 				href="/productos/entrada">
 				<svg className="w-12 h-12 fill-zinc-50 mx-auto">
 					<use href="/sprites.svg#clipboard"></use>
@@ -14,7 +14,7 @@ function ActionsMenu() {
 			</Link>
 
 			<Link
-				className="flex flex-col gap-y-2 justify-center items-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-zinc-950 hover:scale-105 lg:w-32"
+				className="flex flex-col gap-y-2 justify-center items-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-zinc-950 hover:scale-105"
 				href="/productos/crear">
 				<svg className="w-12 h-12 fill-zinc-50 mx-auto">
 					<use href="/sprites.svg#plus"></use>
@@ -23,7 +23,7 @@ function ActionsMenu() {
 			</Link>
 
 			<Link
-				className="flex flex-col gap-y-2 items-center justify-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-zinc-950 hover:scale-105 lg:w-32"
+				className="flex flex-col gap-y-2 items-center justify-center aspect-square w-32 text-center bg-rose-950 p-1 rounded hover:bg-zinc-950 hover:scale-105"
 				href="/productos/eliminar">
 				<svg className="w-12 h-12 fill-zinc-50 mx-auto">
 					<use href="/sprites.svg#bin"></use>
@@ -33,7 +33,7 @@ function ActionsMenu() {
 
 			<Link
 				href="/productos/categorias"
-				className="flex flex-col item-center justify-center aspect-square w-32 text-center bg-rose-950 p-1 rounded break-words overflow-hidden hover:bg-zinc-950 hover:scale-105 lg:w-32">
+				className="flex flex-col item-center justify-center aspect-square w-32 text-center bg-rose-950 p-1 rounded break-words overflow-hidden hover:bg-zinc-950 hover:scale-105">
 				{/* <svg className="w-8 h-8 fill-zinc-50 mx-auto">
 							<use href="/sprites.svg#bin"></use>
 						</svg> */}
