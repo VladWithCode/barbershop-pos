@@ -10,9 +10,6 @@ export default function CustomerListing({ search }: { search?: string }) {
 
 	return (
 		<div className="grid grid-cols-3 gap-2">
-			{/* 			{TEST_USERS.map(customer => (
-				<CustomerCard customer={customer} />
-			))} */}
 			{data?.map(customer => (
 				<CustomerCard customer={customer} key={customer._id} />
 			))}
