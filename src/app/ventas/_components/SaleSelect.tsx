@@ -21,7 +21,7 @@ export function CustomerSelect({
 	const [isSelectActive, setIsSelectActive] = useState(false);
 	const { data, isError, isLoading } = useCustomers();
 	const options = data
-		? data.data.map((customer: any) => ({
+		? data.map((customer: any) => ({
 				id: customer._id,
 				label: customer.fullname,
 				value: customer._id,
