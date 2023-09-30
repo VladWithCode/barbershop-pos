@@ -74,6 +74,7 @@ export default function CreateCustomerForm({
 					</label>
 					<Select
 						id="social_media"
+						defaultValue="no-val"
 						options={SocialMediaOptions}
 						onSelect={opt => setField('social_media', opt.value)}
 					/>
@@ -107,6 +108,11 @@ export default function CreateCustomerForm({
 }
 
 export const SocialMediaOptions = [
+	{
+		id: 'no-val',
+		value: undefined,
+		label: 'Seleccionar...',
+	},
 	{
 		id: 'facebook',
 		value: 'facebook',

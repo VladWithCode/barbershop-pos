@@ -43,17 +43,21 @@ export default function CustomerDetail({
 				<div className="flex flex-col w-1/2">
 					<p className="text-zinc-600 text-sm">Red Social</p>
 					<p className="capitalize font-medium">
-						{customer.social_media}
+						{customer.social_media || 'Sin definir'}
 					</p>
 				</div>
 				<div className="flex flex-col w-1/2">
 					<p className="text-zinc-600 text-sm">Usuario</p>
-					<p className="font-medium">{customer.social_media_name}</p>
+					<p className="font-medium">
+						{customer.social_media_name || 'Sin definir'}
+					</p>
 				</div>
 			</div>
 			<div className="flex flex-col">
 				<p className="text-zinc-600 text-sm">Dirección</p>
-				<p className="font-medium">{customer.address}</p>
+				<p className="font-medium">
+					{customer.address || 'Sin definir'}
+				</p>
 			</div>
 		</div>
 	);
