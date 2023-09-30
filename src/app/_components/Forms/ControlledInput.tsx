@@ -7,7 +7,7 @@ import React, {
 
 export type ControlledInputProps = {
 	name: string;
-	value: string;
+	value: any;
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	type?: HTMLInputTypeAttribute;
 	className?: string;
