@@ -3,15 +3,16 @@ import useAuth from '@/app/auth/_hooks/useAuth';
 import React from 'react';
 import { useUser } from '../_services/user.service';
 import Loading from '@/app/_components/Loading/Loading';
+import Page from '@/app/_components/Page';
 
 export default function User() {
-	const { name } = useAuth();
+	const {
+		user: { name },
+	} = useAuth();
 	const { data, isLoading, isError } = useUser(name);
 
-	console.log(data);
-
 	return (
-		<div className="w-full h-page">
+		<Page>
 			<h1 className="text-lg px-8 pt-2 pb-8">Mi Perfil</h1>
 			<div className="w-4/5 mx-auto">
 				<div className="flex flex-col bg-zinc-300 py-4 px-8 w-96 text-zinc-950 gap-y-3">
@@ -40,6 +41,6 @@ export default function User() {
 					)}
 				</div>
 			</div>
-		</div>
+		</Page>
 	);
 }

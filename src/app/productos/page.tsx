@@ -3,12 +3,13 @@ import ProductList from './_components/ProductList';
 import ActionsMenu from './_components/Menu/ActionsMenu';
 import { useState } from 'react';
 import Searchbar from '../_components/Searchbar';
+import Page from '../_components/Page';
 
 export default function products() {
 	const [search, setSearch] = useState('');
 
 	return (
-		<div className="h-page max-w-screen-xl grid grid-cols-12 auto-rows-fr mx-auto gap-x-4 py-2">
+		<Page>
 			{/* <ControlWrapper /> */}
 			<div className="flex flex-col col-span-7 px-4 py-2 overflow-hidden">
 				<h1 className="text-xl font-medium shrink grow-0 basis-auto">
@@ -32,6 +33,6 @@ export default function products() {
 				<div className="py-2" />
 				<ActionsMenu />
 			</div>
-		</div>
+		</Page>
 	);
 }
