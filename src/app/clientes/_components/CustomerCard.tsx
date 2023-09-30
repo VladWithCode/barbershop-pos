@@ -25,14 +25,14 @@ export default function CustomerCard({
 					</svg>
 				</Link>
 
-				<Link
+				{/* 				<Link
 					href={'/clientes/editar/' + customer._id}
 					className="btn btn-sm btn-primary hover:text-zinc-50"
 					title="Editar">
 					<svg className="w-3.5 h-3.5 fill-current">
 						<use href="/sprites.svg#pencil"></use>
 					</svg>
-				</Link>
+				</Link> */}
 			</div>
 		</div>
 	);
