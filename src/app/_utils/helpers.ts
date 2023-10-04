@@ -3,7 +3,7 @@ export function getClassName(...classList: (string | boolean | undefined)[]) {
 }
 
 export function numberToPrice(n: number | string) {
-	if (Number.isNaN(Number(n))) return '0.00';
+	if (Number.isNaN(Number(n))) return '$0.00';
 
 	return n.toLocaleString('es-MX', {
 		style: 'currency',
