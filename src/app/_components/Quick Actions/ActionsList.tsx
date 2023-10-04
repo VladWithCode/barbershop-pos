@@ -10,7 +10,7 @@ const QuickActions = [
 	{
 		name: 'Pago de Credito',
 		icon: 'credit_card',
-		href: '/creditos/pago',
+		href: '/ventas/abono',
 	},
 	{
 		name: 'Entrada de Mercancia',
