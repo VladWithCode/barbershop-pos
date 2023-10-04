@@ -49,7 +49,7 @@ function CreateForm({
 	return (
 		<form
 			onSubmit={_onSubmit}
-			className="w-full max-w-lg bg-zinc-300 rounded px-6 py-4 text-zinc-950 space-y-4">
+			className="w-full max-w-lg bg-zinc-300 rounded px-4 py-2 text-zinc-950 space-y-2">
 			<InputGroup
 				label="Nombre"
 				name="name"
