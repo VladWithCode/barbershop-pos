@@ -36,10 +36,10 @@ const MenuOptions = [
 
 function Menu() {
 	return (
-		<div className="px-2 py-4 w-full overflow-hidden">
-			<h2 className="text-xl mb-2">Menú</h2>
+		<div className="flex flex-col overflow-hidden">
+			<h2 className="text-lg mb-2">Menú</h2>
 
-			<div className="grid grid-cols-3 gap-2 justify-items-center max-w-md">
+			<div className="w-fit grid grid-cols-2 grid-rows-2 gap-2 mx-auto">
 				{MenuOptions.map((option, index) => (
 					<Option option={{ ...option, id: index }} key={index} />
 				))}
