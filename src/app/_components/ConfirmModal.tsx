@@ -12,7 +12,7 @@ export default function ConfirmModal({
 	return (
 		<div
 			id="CONFIRM_MODAL_COMPONENT"
-			className="fixed inset-0 z-50 bg-zinc-900 bg-opacity-50 flex justify-center items-center text-zinc-950">
+			className="fixed inset-0 z-50 bg-zinc-900 bg-opacity-50 flex justify-center items-center text-zinc-950 invisible">
 			<div className="bg-zinc-50 rounded p-4">
 				<p className="text-center w-3/5 mx-auto">{message}</p>
 				<div className="flex justify-center gap-x-2 mt-4">
