@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export type TSelectOption<T = any> = {
 	id: string;
@@ -11,19 +11,26 @@ function SearchableSelect({
 	options,
 	id,
 	onChange,
+	preselectedOption,
 }: {
 	options: TSelectOption[];
 	id: string;
 	onChange: (opt: TSelectOption, id: string) => void;
+	preselectedOption?: TSelectOption;
 }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [search, setSearch] = React.useState('');
 	const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(
-		null
+		preselectedOption || null
 	);
 	const filteredOptions = options.filter(opt =>
 		opt.label.toLowerCase().includes(search.toLowerCase())
 	);
+
+	useEffect(() => {
+		if (preselectedOption !== undefined)
+			setSelectedOption(preselectedOption);
+	}, [preselectedOption]);
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearch(e.target.value);
