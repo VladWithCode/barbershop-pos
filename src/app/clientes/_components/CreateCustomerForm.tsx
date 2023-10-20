@@ -7,13 +7,19 @@ import { getClassName } from '@/app/_utils/helpers';
 import React from 'react';
 import { useMutateCustomer } from '../_hooks/useCustomers';
 import { useToast } from '@/app/_components/Toast/Toast';
+import { CustomerDoc } from '../_services/CustomerService';
+import { queryClient } from '@/app/_components/GlobalQueryProvider';
+import Spinner from '@/app/_components/Loading/Spinner';
 
 export type CreateCustomerFormProps = {
 	className?: string;
+	onSuccess?: (customer: CustomerDoc) => void;
+	onError?: (error: any) => void;
 };
 
 export default function CreateCustomerForm({
 	className,
+	onSuccess,
 }: CreateCustomerFormProps) {
 	const { pushToast } = useToast();
 	const { mutateAsync, isLoading, isError } = useMutateCustomer();
@@ -29,9 +35,11 @@ export default function CreateCustomerForm({
 	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			await mutateAsync(fields);
+			const customer = await mutateAsync(fields);
 			pushToast({ message: 'Cliente agregado', type: 'success' });
 			reset();
+			if (typeof onSuccess === 'function') onSuccess(customer);
+			queryClient.invalidateQueries(['customers', 'get', '']);
 		} catch (error) {
 			console.error(error);
 			pushToast({ message: 'Error al agregar cliente', type: 'error' });
@@ -99,8 +107,13 @@ export default function CreateCustomerForm({
 			<div className="flex justify-end">
 				<button
 					className="bg-zinc-800 text-zinc-50 px-4 py-2 rounded"
-					type="submit">
-					Agregar
+					type="submit"
+					disabled={isLoading}>
+					{isLoading ? (
+						<Spinner borderWidth={2} width={8} />
+					) : (
+						'Agregar'
+					)}
 				</button>
 			</div>
 		</form>
