@@ -5,7 +5,7 @@ import { getClassName } from '@/app/_utils/helpers';
 import { useCustomers } from '@/app/clientes/_hooks/useCustomers';
 import { useUsers } from '@/app/usuarios/_hooks/useUsers';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function SaleSelect() {
 	return <div>SaleSelect</div>;
@@ -14,11 +14,13 @@ export default function SaleSelect() {
 export function CustomerSelect({
 	value,
 	onChange,
+	preselectedOption,
 }: {
 	value: string;
 	onChange: (option: TSelectOption) => void;
+	preselectedOption?: TSelectOption;
 }) {
-	const [isSelectActive, setIsSelectActive] = useState(false);
+	const [isSelectActive, setIsSelectActive] = useState(true);
 	const { data, isError, isLoading } = useCustomers();
 	const options = data
 		? data.map((customer: any) => ({
@@ -27,6 +29,10 @@ export function CustomerSelect({
 				value: customer._id,
 		  }))
 		: [];
+
+	useEffect(() => {
+		if (preselectedOption !== undefined) setIsSelectActive(true);
+	}, [preselectedOption]);
 
 	if (isLoading)
 		return (
@@ -55,6 +61,7 @@ export function CustomerSelect({
 							id="customer"
 							options={options}
 							onChange={onChange}
+							preselectedOption={preselectedOption}
 						/>
 					</motion.div>
 				) : (
