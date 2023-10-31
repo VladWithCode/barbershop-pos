@@ -9,7 +9,7 @@ export default function Page({ children, className }: PageProps) {
 	return (
 		<div
 			className={getClassName(
-				'h-page max-w-screen-xl grid grid-cols-12 auto-rows-fr justify-between mx-auto py-2 gap-x-4 overflow-hidden',
+				'relative h-page max-w-screen-xl grid grid-cols-12 auto-rows-fr justify-between mx-auto py-2 gap-x-4 overflow-hidden',
 				className
 			)}>
 			{children}
