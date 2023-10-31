@@ -1,3 +1,4 @@
+import { Sale } from '@/app/ventas/_services/sale.service';
 import AxiosInstance from '../../_utils/api';
 
 export type Customer = {
@@ -7,6 +8,10 @@ export type Customer = {
 	social_media?: string;
 	social_media_name: string;
 	address?: string;
+
+	sales: string[];
+	active_credits: number;
+	pending_payments_amount: number;
 };
 
 export type CustomerDoc = Customer & {
@@ -15,23 +20,25 @@ export type CustomerDoc = Customer & {
 
 export async function getCustomers({
 	search,
-	active = true,
+	active_credits,
 	limit,
 	offset,
 }: {
 	search?: string;
-	active?: boolean;
+	active_credits?: boolean;
 	limit?: number;
 	offset?: number;
 }) {
 	const query = new URLSearchParams();
-	query.append('active', active.toString());
 
 	if (limit && limit > 0) query.append('limit', limit.toString());
 	if (offset && offset > 0) query.append('offset', offset.toString());
 	if (search) {
 		query.append('search', search);
 	}
+	if (active_credits !== undefined)
+		query.append('active_credits', active_credits.toString());
+
 	const response = await AxiosInstance.get<CustomerDoc[]>(
 		'/customers?' + query.toString()
 	);
@@ -41,6 +48,21 @@ export async function getCustomers({
 
 export async function getCustomerById(id: string) {
 	const response = await AxiosInstance.get<CustomerDoc>(`/customers/${id}`);
+
+	return response.data;
+}
+
+export async function getCustomerPaymentInfo(id: string) {
+	const response = await AxiosInstance.get<{
+		customerData: CustomerDoc & {
+			sales_data: (Sale & { item_count: number })[];
+		};
+		paymentData: {
+			totalPendingPayment: number;
+			expectedPaymentAmount: number;
+			hasOverduePayments: boolean;
+		};
+	}>(`/customers/${id}/get-payment-info`);
 
 	return response.data;
 }
