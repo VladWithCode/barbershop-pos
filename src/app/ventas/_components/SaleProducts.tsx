@@ -43,6 +43,7 @@ export default function SaleProducts({
 				) : (
 					products.map(p => (
 						<SaleProduct
+							key={p._id}
 							product={p}
 							priceKey={priceKey}
 							handleRemoveClick={handleRemoveClick}
