@@ -31,7 +31,7 @@ export function SaleProduct({
 	};
 
 	return (
-		<motion.div className="h-20 overflow-hidden rounded" key={product._id}>
+		<motion.div className="h-20 overflow-hidden rounded">
 			<div className="h-full flex gap-x-4">
 				<div className="w-20 grow-0">
 					{product.picture?.length > 0 ? (
