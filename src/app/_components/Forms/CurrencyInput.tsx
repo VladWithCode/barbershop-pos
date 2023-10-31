@@ -15,9 +15,9 @@ export default function CurrencyInput({
 	value?: number;
 }) {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const v = e.target.value;
+		const v = Number.isNaN(+e.target.value) ? 0 : +e.target.value;
 
-		if (typeof onChange === 'function') onChange(parseInt(v), name);
+		if (typeof onChange === 'function') onChange(v, name);
 	};
 
 	return (
