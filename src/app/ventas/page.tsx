@@ -1,10 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { CustomerSelect, UserSelect } from './_components/SaleSelect';
 import AddModal from './_components/AddModal';
 import { AnimatePresence } from 'framer-motion';
-import Select from '@/app/_components/Forms/Select';
-import CurrencyInput from '@/app/_components/Forms/CurrencyInput';
 import useCreateSaleStore from './_stores/useCreateSaleStore';
 import SaleProducts from './_components/SaleProducts';
 import { useCreateSale } from './_services/sale.service';
@@ -12,17 +9,8 @@ import { useToast } from '@/app/_components/Toast/Toast';
 import { useRouter } from 'next/navigation';
 import Page from '@/app/_components/Page';
 import ConfirmModal from '../_components/ConfirmModal';
-
-const PaymentMethods = [
-	{ id: 'PM-01', label: 'Efectivo', value: 'cash' },
-	{ id: 'PM-02', label: 'Tarjeta', value: 'card' },
-	{ id: 'PM-03', label: 'Transferencia', value: 'transfer' },
-];
-
-const PaymentTypes = [
-	{ id: 'PT-01', label: 'Contado', value: 'cash' },
-	{ id: 'PT-02', label: 'Crédito', value: 'credit' },
-];
+import CreateSale from './_components/CreateSale';
+import Loading from '../_components/Loading/Loading';
 
 const FieldsEs: Record<string, any> = {
 	payment_method: 'Metodo de pago',
@@ -51,13 +39,6 @@ function NuevaVenta() {
 	} = useCreateSaleStore(state => state);
 	const { mutateAsync, isLoading } = useCreateSale();
 	const { pushToast } = useToast();
-
-	const handleSelectChange = (opt: any, id: string) => {
-		setField(id, opt.value);
-	};
-	const handleInputChange = (value: string | number, id: string) => {
-		setField(id, value);
-	};
 
 	const handleAddProduct = (product: any) => {
 		addProduct(product);
@@ -88,7 +69,6 @@ function NuevaVenta() {
 
 		const invalidFields = requiredFields
 			.filter(([f, v]) => {
-				console.log(f, v);
 				if (typeof v === 'number') {
 					return v === 0 || Number.isNaN(v);
 				}
@@ -129,100 +109,20 @@ function NuevaVenta() {
 
 	return (
 		<Page>
-			<div className="col-span-6 px-4 py-2">
+			{isLoading && (
+				<div className="relative col-span-full row-start-1 backdrop-blur h-full w-full flex justify-center items-center z-10 bg-zinc-800 bg-opacity-30">
+					<Loading />
+				</div>
+			)}
+			<div className="col-span-6 col-start-1 row-start-1 px-4 py-2">
 				<h1 className="text-xl font-medium">Registrar venta nueva</h1>
 				<p className="text-zinc-500">
 					Agrega una nueva venta a la base de datos.
 				</p>
 				<div className="py-2" />
-				<form
-					onSubmit={handleSubmit}
-					className="w-full mx-auto py-2 px-4 bg-zinc-300 text-zinc-950 rounded space-y-3 overflow-hidden">
-					<div className="relative flex flex-col z-20">
-						<p className="font-medium">
-							Cliente <span className="text-xs">(*)</span>
-						</p>
-						<div className="flex items-center">
-							<CustomerSelect
-								value={fields.customer}
-								onChange={opt =>
-									setField('customer', opt.value)
-								}
-							/>
-							<button
-								type="button"
-								className="text-zinc-950 hover:text-zinc-700">
-								<svg className="w-8 h-8 m-auto fill-current">
-									<use href="/sprites.svg#plus"></use>
-								</svg>
-							</button>
-						</div>
-					</div>
-					<div className="flex flex-col">
-						<p className="font-medium">
-							Vendedor<span className="text-xs">(*)</span>
-						</p>
-						<UserSelect
-							onChange={opt => setField('seller', opt.value)}
-						/>
-					</div>
-					<div className="flex gap-x-3">
-						<div className="basis-1/2 grow-0">
-							<p className="font-medium">
-								Método de pago
-								<span className="text-xs">(*)</span>
-							</p>
-							<Select
-								id="payment_method"
-								options={PaymentMethods}
-								onSelect={handleSelectChange}
-							/>
-						</div>
-						<div className="basis-1/2 grow-0">
-							<p className="font-medium">
-								Tipo de pago
-								<span className="text-xs">(*)</span>
-							</p>
-							<Select
-								id="payment_type"
-								options={PaymentTypes}
-								onSelect={opt => setPaymentType(opt.value)}
-								defaultValue="PT-01"
-							/>
-						</div>
-					</div>
-					{/* Display inputs based on payment_type */}
-					{fields.payment_type === 'credit' ? (
-						<CreditSaleFields
-							commission={fields.commission}
-							deposit={fields.deposit}
-							installment={fields.installment}
-							next_payment_date={fields.next_payment_date}
-							setField={setField}
-							setDeposit={setDeposit}
-							handleInputChange={handleInputChange}
-						/>
-					) : (
-						<CashSaleFields
-							commission={fields.commission}
-							deposit={fields.deposit}
-							handleInputChange={handleInputChange}
-							setDeposit={setDeposit}
-						/>
-					)}
-
-					<div className="flex pt-3">
-						<button
-							className="bg-zinc-800 text-zinc-50 px-4 py-2 rounded-sm ml-auto hover:bg-zinc-700"
-							type="submit"
-							disabled={isLoading}>
-							Realizar Venta
-						</button>
-					</div>
-					<p className="text-xs text-zinc-500">(*) Requerido</p>
-				</form>
+				<CreateSale handleSubmit={handleSubmit} isLoading={isLoading} />
 			</div>
-			<div className="col-span-6 py-2 px-4">
+			<div className="col-span-6 col-start-7 row-start-1 py-2 px-4">
 				<div className="pt-[67px]" />
 				<SaleProducts
 					handleAddClick={() => setIsAddModalActive(true)}
@@ -250,7 +150,6 @@ function NuevaVenta() {
 			{isConfirmModalActive && (
 				<ConfirmModal
 					message="La venta se registro con exito. ¿Deseas revisarla ahora?"
-					isActive={true}
 					onConfirm={() => {
 						setIsConfirmModalActive(false);
 						redirect('/ventas');
@@ -263,118 +162,3 @@ function NuevaVenta() {
 }
 
 export default NuevaVenta;
-
-function CashSaleFields({
-	deposit,
-	commission,
-	setDeposit,
-	handleInputChange,
-}: {
-	deposit: number;
-	commission: number;
-	setDeposit: (value: number) => void;
-	handleInputChange: (value: string | number, id: string) => void;
-}) {
-	return (
-		<div className="flex gap-x-3">
-			<div className="w-1/2 grow-0">
-				<p className="text-sm font-medium">
-					Cantidad anticipo
-					<span className="text-xs">(*)</span>
-				</p>
-				<CurrencyInput
-					className="text-right mt-2 w-full"
-					name="deposito"
-					type="number"
-					value={deposit}
-					onChange={value => setDeposit(+value)}
-				/>
-			</div>
-			<div className="w-1/2 grow-0">
-				<p className="text-sm font-medium">Comision</p>
-				<CurrencyInput
-					className="text-right mt-2 w-full"
-					name="commission"
-					type="number"
-					value={commission}
-					onChange={handleInputChange}
-				/>
-			</div>
-		</div>
-	);
-}
-
-function CreditSaleFields({
-	deposit,
-	installment,
-	commission,
-	next_payment_date,
-	setField,
-	setDeposit,
-	handleInputChange,
-}: {
-	deposit: number;
-	installment: number;
-	commission: number;
-	next_payment_date: string;
-	setField: (field: string, value: any) => void;
-	setDeposit: (value: number) => void;
-	handleInputChange: (value: string | number, id: string) => void;
-}) {
-	return (
-		<div className="flex gap-x-2 items-end">
-			<div className="flex-auto grow-0">
-				<p className="text-sm font-medium">
-					Cantidad anticipo
-					<span className="text-xs">(*)</span>
-				</p>
-				<CurrencyInput
-					className="text-right mt-2 w-full"
-					name="deposit"
-					type="number"
-					value={deposit}
-					onChange={value => setDeposit(+value)}
-				/>
-			</div>
-			<div className="flex-auto grow-0">
-				<p className="text-sm font-medium">
-					Cantidad p/quincena
-					<span className="text-xs">(*)</span>
-				</p>
-				<CurrencyInput
-					className="text-right mt-2 w-full"
-					name="installment"
-					type="number"
-					value={installment}
-					onChange={handleInputChange}
-				/>
-			</div>
-			<div className="flex-auto grow-0">
-				<p className="text-sm font-medium">Fecha siguiente pago</p>
-				<input
-					className="bg-transparent border-2 border-transparent border-b-zinc-950 focus:ring-0 focus:border-zinc-50 focus:bg-zinc-800 focus:text-zinc-50 focus:rounded"
-					type="date"
-					name="next_payment_date"
-					id="next_payment_date"
-					value={next_payment_date}
-					onChange={e =>
-						setField('next_payment_date', e.target.value)
-					}
-				/>
-			</div>
-			<div className="flex-auto shrink grow-0">
-				<p className="text-sm font-medium">
-					Comisión
-					<span className="text-xs">(*)</span>
-				</p>
-				<CurrencyInput
-					className="text-right mt-2 w-full"
-					name="commission"
-					type="number"
-					value={commission}
-					onChange={handleInputChange}
-				/>
-			</div>
-		</div>
-	);
-}
