@@ -1,5 +1,9 @@
 import CurrencyInput from '@/app/_components/Forms/CurrencyInput';
-import { getClassName, numberToPrice } from '@/app/_utils/helpers';
+import {
+	dateToLongDate,
+	getClassName,
+	numberToPrice,
+} from '@/app/_utils/helpers';
 import React from 'react';
 import PaymentMethodSelect from './PaymentMethodSelect';
 import useForm from '@/app/_hooks/useForm';
@@ -140,39 +144,58 @@ export function CreatePaymentWindow({
 						<div className="flex flex-auto gap-2">
 							<div className="p-2 bg-zinc-200 rounded w-4/6 space-y-3 overflow-hidden overflow-y-auto custom-scroll-bar text-zinc-50">
 								{data.customerData.sales_data.map(sale => (
-									<div className="flex gap-2 p-1 bg-zinc-800 rounded">
-										<div className="basis-1/4 shrink flex flex-col text-center">
-											<p className="text-xs">Articulos</p>
-											<p className="font-medium">
-												{sale.item_count}
-											</p>
-										</div>
-										<div className="basis-1/4 shrink flex flex-col text-center">
-											<p className="text-xs">Pendiente</p>
-											<p className="font-medium">
-												{numberToPrice(
-													sale.pending_amount / 100
-												)}
-											</p>
-										</div>
-										<div className="basis-1/4 shrink flex flex-col text-center">
-											<p className="text-xs">Quincena</p>
-											<p className="font-medium">
-												{numberToPrice(
-													sale.installment / 100
-												)}
-											</p>
-										</div>
-										<div className="basis-1/4 shrink flex flex-col text-center">
-											<p className="text-xs">Estatus</p>
-											<p className="font-medium">
-												{sale.status === 'over_due'
-													? 'Retrasado'
-													: sale.status ===
-													  'pending_payment'
-													? 'Pendiente'
-													: 'Pagado'}
-											</p>
+									<div
+										className="flex flex-col gap-2"
+										key={sale._id}>
+										<p className="text-zinc-800 text-xs uppercase">
+											Compra del{' '}
+											{dateToLongDate(
+												new Date(sale.credit_start_date)
+											)}
+										</p>
+										<div className="flex gap-2 p-1 bg-zinc-800 rounded">
+											<div className="basis-1/4 shrink flex flex-col text-center">
+												<p className="text-xs">
+													Articulos
+												</p>
+												<p className="font-medium">
+													{sale.item_count}
+												</p>
+											</div>
+											<div className="basis-1/4 shrink flex flex-col text-center">
+												<p className="text-xs">
+													Pendiente
+												</p>
+												<p className="font-medium">
+													{numberToPrice(
+														sale.pending_amount /
+															100
+													)}
+												</p>
+											</div>
+											<div className="basis-1/4 shrink flex flex-col text-center">
+												<p className="text-xs">
+													Quincena
+												</p>
+												<p className="font-medium">
+													{numberToPrice(
+														sale.installment / 100
+													)}
+												</p>
+											</div>
+											<div className="basis-1/4 shrink flex flex-col text-center">
+												<p className="text-xs">
+													Estatus
+												</p>
+												<p className="font-medium">
+													{sale.status === 'over_due'
+														? 'Retrasado'
+														: sale.status ===
+														  'pending_payment'
+														? 'Pendiente'
+														: 'Pagado'}
+												</p>
+											</div>
 										</div>
 									</div>
 								))}
