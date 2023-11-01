@@ -35,7 +35,7 @@ export default function CreateCustomerForm({
 	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			const customer = await mutateAsync(fields);
+			const customer = await mutateAsync(fields as CustomerDoc);
 			pushToast({ message: 'Cliente agregado', type: 'success' });
 			reset();
 			if (typeof onSuccess === 'function') onSuccess(customer);
