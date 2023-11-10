@@ -17,15 +17,15 @@ const MenuOptions = [
 		icon: 'customers',
 		href: '/clientes',
 	},
-	/* 	{
-		name: 'Creditos',
-		icon: 'credit_card',
-		href: '/creditos',
-	},
 	{
 		name: 'Reportes',
 		icon: 'clipboard',
 		href: '/reportes',
+	},
+	/* 	{
+		name: 'Creditos',
+		icon: 'credit_card',
+		href: '/creditos',
 	},
 	{
 		name: 'Gastos',
