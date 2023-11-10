@@ -4,7 +4,7 @@ import InputGroup from '../_components/InputGroup';
 import * as AuthService from '../auth/auth.service';
 import Cookies from 'js-cookie';
 import useAuthStore, { TUserRoles } from '../auth/_stores/useAuthStore';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import AxiosInstance from '../_utils/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import Page from '../_components/Page';
@@ -17,6 +17,7 @@ import Loading from '../_components/Loading/Loading';
 
 function Login() {
 	const router = useRouter();
+	const redirectUrl = useSearchParams().get('redirect');
 	const [loginError, setLoginError] = useState('');
 	const [loginSuccess, setLoginSuccess] = useState(false);
 	const setToken = useAuthStore(state => state.setToken);
@@ -46,7 +47,7 @@ function Login() {
 		] = `Bearer ${userData.access_token}`;
 		setLoginSuccess(true);
 
-		router.replace('/');
+		router.replace(redirectUrl || '/');
 	};
 	const [{ username, password }, onChange] = useForm({
 		username: '',
