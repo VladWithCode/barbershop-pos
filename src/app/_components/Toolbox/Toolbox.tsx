@@ -1,12 +1,14 @@
 import { useFloatingWindowStore } from '@/app/_FloatingWindows/stores/useFloatingWindowStore';
-import React from 'react';
+import { useAnimate } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import Toggler from './Toggler';
 
 const Buttons = [
-	{
+	/* 	{
 		label: 'Nueva Venta',
 		icon: 'bill',
 		id: 'NEW_SALE',
-	},
+	}, */
 	{
 		label: 'Registrar Abono',
 		// icon: 'bill'
@@ -21,13 +23,22 @@ const Buttons = [
 ] as const;
 
 export default function Toolbox() {
+	const [scope, animate] = useAnimate();
+	const [isVisible, setIsVisible] = useState(true);
 	const displayNamedWindow = useFloatingWindowStore(
 		state => state.displayNamedWindow
 	);
+	const handleToggle = () => setIsVisible(prev => !prev);
+
+	useEffect(() => {
+		if (isVisible) animate(scope.current, { bottom: '12px' }, {});
+		else animate(scope.current, { bottom: '-104px' });
+	}, [isVisible]);
 
 	return (
-		<div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-50">
-			<div className="p-3 px-6 backdrop-blur bg-zinc-50 bg-opacity-5 rounded">
+		<div className="absolute left-1/2 -translate-x-1/2 z-30" ref={scope}>
+			<div className="relative p-3 pt-8 px-6 backdrop-blur bg-zinc-50 bg-opacity-5 rounded overflow-hidden">
+				<Toggler isVisible={isVisible} onClick={handleToggle} />
 				<div className="flex gap-3">
 					{Buttons.map(btn => (
 						<button
