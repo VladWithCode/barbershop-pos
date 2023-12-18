@@ -31,6 +31,7 @@ export type CreateSaleState = {
 	setDeposit: (value: number) => void;
 	setPaymentType: (paymentType: PaymentType) => void;
 	addProduct: (product: Product & { default_sale_stock_id: string }) => void;
+	updateProductQty: (id: string, qty: number) => void;
 	removeProduct: (id: string) => void;
 	clearState: () => void;
 };
@@ -157,6 +158,39 @@ const useCreateSaleStore = createWithEqualityFn<CreateSaleState>(
 				newTotal += newProduct[sellPriceKey];
 
 				newState['products'] = [...products, newProduct];
+			}
+
+			if (payment_type === PaymentTypes.CREDIT) {
+				newInstallment = Math.ceil((newTotal - deposit) / 6);
+
+				newState['installment'] = newInstallment;
+			}
+
+			set({ ...newState, total: newTotal });
+		},
+
+		updateProductQty: (id: string, qty: number) => {
+			const { products, payment_type, deposit } = get();
+			const sellPriceKey =
+				payment_type === PaymentTypes.CASH
+					? 'sell_price_cash'
+					: 'sell_price_credit';
+
+			let newTotal = 0;
+			let newInstallment = 0;
+
+			let newState: Record<string, any> = {};
+
+			newState['products'] = [];
+			for (let p of products) {
+				if (p._id === id) {
+					newTotal += p[sellPriceKey] * qty;
+					newState['products'].push({ ...p, qty: qty });
+					continue;
+				}
+
+				newTotal += p.qty * p[sellPriceKey];
+				newState['products'].push(p);
 			}
 
 			if (payment_type === PaymentTypes.CREDIT) {

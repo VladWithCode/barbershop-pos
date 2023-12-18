@@ -10,6 +10,7 @@ import SaleProducts from '../_components/SaleProducts';
 import { useCreateSale } from '../_services/sale.service';
 import { useToast } from '@/app/_components/Toast/Toast';
 import { useRouter } from 'next/navigation';
+import Page from '@/app/_components/Page';
 
 const PaymentMethods = [
 	{ id: 'PM-01', label: 'Efectivo', value: 'cash' },
@@ -22,6 +23,17 @@ const PaymentTypes = [
 	{ id: 'PT-02', label: 'Crédito', value: 'credit' },
 ];
 
+const FieldsEs: Record<string, any> = {
+	payment_method: 'Metodo de pago',
+	customer: 'Cliente',
+	seller: 'Vendedor',
+	payment_type: 'Tipo de pago',
+	deposit: 'Anticipo',
+	commission: 'Comision',
+	installment: 'Quincena',
+	products: 'Productos',
+};
+
 function NuevaVenta() {
 	const redirect = useRouter().push;
 	const [isAddModalActive, setIsAddModalActive] = useState(false);
@@ -33,6 +45,7 @@ function NuevaVenta() {
 		addProduct,
 		removeProduct,
 		clearState,
+		updateProductQty,
 		...fields
 	} = useCreateSaleStore(state => state);
 	const { mutateAsync, isLoading } = useCreateSale();
@@ -49,8 +62,57 @@ function NuevaVenta() {
 		addProduct(product);
 	};
 
+	const handleUpdateProduct = (product: any) => {
+		updateProductQty(product._id, product.qty);
+	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+
+		if (fields.payment_type === 'cash' && fields.deposit !== fields.total) {
+			pushToast({
+				message:
+					'La cantidad pagada debe ser la misma que el total de la venta',
+				type: 'error',
+			});
+			return;
+		}
+		const notRequiredFields = ['next_payment_date', 'commission'];
+		if (fields.payment_type === 'cash')
+			notRequiredFields.push('installment');
+
+		const requiredFields = Object.entries(fields).filter(
+			([field]) => !notRequiredFields.includes(field)
+		);
+
+		const invalidFields = requiredFields
+			.filter(([f, v]) => {
+				console.log(f, v);
+				if (typeof v === 'number') {
+					return v === 0 || Number.isNaN(v);
+				}
+
+				if (typeof v === 'string') {
+					return v.length === 0;
+				}
+
+				if (f === 'products') {
+					return v.length === 0;
+				}
+
+				return false;
+			})
+			.map(([f]) => FieldsEs[f] || f);
+
+		if (invalidFields.length > 0) {
+			pushToast({
+				message:
+					'Algunos campos son invalidos: ' + invalidFields.join(', '),
+				type: 'error',
+			});
+			return;
+		}
+
 		await mutateAsync(fields, {
 			onSuccess: () => {
 				pushToast({
@@ -65,31 +127,39 @@ function NuevaVenta() {
 	};
 
 	return (
-		<div className="relative w-full h-page z-0">
-			<h1 className="text-lg px-8 pt-2 pb-8">Registrar venta nueva</h1>
-			<div className="flex">
+		<Page>
+			<div className="col-span-6 px-4 py-2">
+				<h1 className="text-xl font-medium">Registrar venta nueva</h1>
+				<p className="text-zinc-500">
+					Agrega una nueva venta a la base de datos.
+				</p>
+				<div className="py-2" />
 				<form
 					onSubmit={handleSubmit}
-					className="w-2/5 mx-auto py-2 px-4 bg-zinc-300 text-zinc-950 rounded space-y-4 overflow-hidden">
+					className="w-full mx-auto py-2 px-4 bg-zinc-300 text-zinc-950 rounded space-y-3 overflow-hidden">
 					<div className="relative flex flex-col z-20">
-						<p className="font-medium">Cliente</p>
+						<p className="font-medium">
+							Cliente <span className="text-xs">(*)</span>
+						</p>
 						<CustomerSelect
 							value={fields.customer}
 							onChange={opt => setField('customer', opt.value)}
 						/>
-						{/* 						<CustomerSelect
-							onChange={opt => setField('customer', opt.value)}
-						/> */}
 					</div>
 					<div className="flex flex-col">
-						<p className="font-medium">Vendedor</p>
+						<p className="font-medium">
+							Vendedor<span className="text-xs">(*)</span>
+						</p>
 						<UserSelect
 							onChange={opt => setField('seller', opt.value)}
 						/>
 					</div>
 					<div className="flex gap-x-3">
 						<div className="basis-1/2 grow-0">
-							<p className="font-medium">Método de pago</p>
+							<p className="font-medium">
+								Método de pago
+								<span className="text-xs">(*)</span>
+							</p>
 							<Select
 								id="payment_method"
 								options={PaymentMethods}
@@ -97,7 +167,10 @@ function NuevaVenta() {
 							/>
 						</div>
 						<div className="basis-1/2 grow-0">
-							<p className="font-medium">Tipo de pago</p>
+							<p className="font-medium">
+								Tipo de pago
+								<span className="text-xs">(*)</span>
+							</p>
 							<Select
 								id="payment_type"
 								options={PaymentTypes}
@@ -106,7 +179,6 @@ function NuevaVenta() {
 							/>
 						</div>
 					</div>
-
 					{/* Display inputs based on payment_type */}
 					{fields.payment_type === 'credit' ? (
 						<CreditSaleFields
@@ -127,7 +199,7 @@ function NuevaVenta() {
 						/>
 					)}
 
-					<div className="flex">
+					<div className="flex pt-3">
 						<button
 							className="bg-zinc-800 text-zinc-50 px-4 py-2 rounded-sm ml-auto hover:bg-zinc-700"
 							type="submit"
@@ -135,10 +207,15 @@ function NuevaVenta() {
 							Realizar Venta
 						</button>
 					</div>
+					<p className="text-xs text-zinc-500">(*) Requerido</p>
 				</form>
+			</div>
+			<div className="col-span-6 py-2 px-4">
+				<div className="pt-[67px]" />
 				<SaleProducts
 					handleAddClick={() => setIsAddModalActive(true)}
 					handleRemoveClick={removeProduct}
+					handleUpdate={handleUpdateProduct}
 					products={fields.products}
 					total={fields.total}
 					priceKey={
@@ -169,7 +246,7 @@ function NuevaVenta() {
 					onCancel={() => setIsConfirmModalActive(false)}
 				/>
 			)}
-		</div>
+		</Page>
 	);
 }
 
@@ -189,7 +266,10 @@ function CashSaleFields({
 	return (
 		<div className="flex gap-x-3">
 			<div className="w-1/2 grow-0">
-				<p className="text-sm font-medium">Cantidad anticipo</p>
+				<p className="text-sm font-medium">
+					Cantidad anticipo
+					<span className="text-xs">(*)</span>
+				</p>
 				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="deposito"
@@ -230,9 +310,12 @@ function CreditSaleFields({
 	handleInputChange: (value: string | number, id: string) => void;
 }) {
 	return (
-		<div className="flex gap-x-3">
-			<div className="w-1/4 grow-0">
-				<p className="text-sm font-medium">Cantidad anticipo</p>
+		<div className="flex gap-x-2 items-end">
+			<div className="flex-auto grow-0">
+				<p className="text-sm font-medium">
+					Cantidad anticipo
+					<span className="text-xs">(*)</span>
+				</p>
 				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="deposit"
@@ -241,8 +324,11 @@ function CreditSaleFields({
 					onChange={value => setDeposit(+value)}
 				/>
 			</div>
-			<div className="w-1/4 grow-0">
-				<p className="text-sm font-medium">Cantidad p/quincena</p>
+			<div className="flex-auto grow-0">
+				<p className="text-sm font-medium">
+					Cantidad p/quincena
+					<span className="text-xs">(*)</span>
+				</p>
 				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="installment"
@@ -251,7 +337,7 @@ function CreditSaleFields({
 					onChange={handleInputChange}
 				/>
 			</div>
-			<div className="w-1/4 grow-0">
+			<div className="flex-auto grow-0">
 				<p className="text-sm font-medium">Fecha siguiente pago</p>
 				<input
 					className="bg-transparent border-2 border-transparent border-b-zinc-950 focus:ring-0 focus:border-zinc-50 focus:bg-zinc-800 focus:text-zinc-50 focus:rounded"
@@ -264,8 +350,11 @@ function CreditSaleFields({
 					}
 				/>
 			</div>
-			<div className="w-1/4 shrink grow-0">
-				<p className="text-sm font-medium">Comisión</p>
+			<div className="flex-auto shrink grow-0">
+				<p className="text-sm font-medium">
+					Comisión
+					<span className="text-xs">(*)</span>
+				</p>
 				<CurrencyInput
 					className="text-right mt-2 w-full"
 					name="commission"
