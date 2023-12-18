@@ -1,20 +1,18 @@
 import { getClassName } from '@/app/_utils/helpers';
-import { motion } from 'framer-motion';
 import React from 'react';
 
 function Spinner({
-	width,
-	borderWidth,
+	className,
 }: {
 	width?: number;
 	borderWidth?: number;
+	className?: string;
 }) {
 	return (
 		<div
 			className={getClassName(
 				'max-w-full max-h-full aspect-square border-l-barber-red border-transparent rounded-full animate-spin',
-				width ? `w-${width}` : 'w-8',
-				borderWidth ? `border-${borderWidth}` : 'border-2'
+				className
 			)}></div>
 	);
 }

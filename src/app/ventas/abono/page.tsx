@@ -30,7 +30,8 @@ export default function Abono() {
 					{data?.map(sale => (
 						<Link
 							href={'/ventas/abono/' + sale._id}
-							className="flex bg-rose-950 px-2 py-1 rounded">
+							className="flex bg-rose-950 px-2 py-1 rounded"
+							key={sale._id}>
 							<div className="flex flex-col h-full w-1/2 gap-1">
 								<p className="font-medium truncate">
 									{sale.customer_name}

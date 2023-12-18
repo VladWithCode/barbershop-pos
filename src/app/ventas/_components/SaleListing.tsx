@@ -15,7 +15,7 @@ function SaleListing({ search }: { search: string }) {
 	return (
 		<div className="space-y-2">
 			{data?.map(sale => (
-				<SaleCard sale={sale} />
+				<SaleCard sale={sale} key={sale._id} />
 			))}
 			{isLoading && <Loading />}
 			{isError && (

@@ -74,8 +74,7 @@ export default function ProductTable({
 					</div>
 				) : null}
 				{TEST_PRODUCTS.map(p => (
-					// <ListElement product={p} key={p._id} />
-					<EditProductElement product={p} />
+					<EditProductElement product={p} key={p._id} />
 				))}
 			</div>
 		</div>

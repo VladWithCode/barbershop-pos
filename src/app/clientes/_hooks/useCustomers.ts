@@ -4,17 +4,22 @@ import {
 	createCustomer,
 	deleteCustomer,
 	getCustomerById,
+	getCustomerPaymentInfo,
 	getCustomers,
 	updateCustomer,
 } from '../_services/CustomerService';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { Sale } from '@/app/ventas/_services/sale.service';
 
-export function useCustomers(params?: { search?: string }) {
-	const { search } = params || {};
+export function useCustomers(params?: {
+	search?: string;
+	active_credits?: boolean;
+}) {
+	const { search, active_credits } = params || {};
 
 	return useQuery<CustomerDoc[], { message: string; error?: any }>(
 		['customers', 'get', search],
-		() => getCustomers({ search: search })
+		() => getCustomers({ search, active_credits })
 	);
 }
 
@@ -23,6 +28,22 @@ export function useCustomerById(id: string) {
 		['customers', 'get', id],
 		() => getCustomerById(id)
 	);
+}
+
+export function useCustomerPaymentInfo(id: string) {
+	return useQuery<
+		{
+			customerData: CustomerDoc & {
+				sales_data: (Sale & { item_count: number })[];
+			};
+			paymentData: {
+				totalPendingPayment: number;
+				expectedPaymentAmount: number;
+				hasOverduePayments: boolean;
+			};
+		},
+		{ message: string; error: any }
+	>(['customers', 'payment-info', id], () => getCustomerPaymentInfo(id));
 }
 
 export function useUpdateCustomer(id: string) {

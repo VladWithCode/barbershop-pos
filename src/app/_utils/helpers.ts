@@ -10,3 +10,13 @@ export function numberToPrice(n: number | string) {
 		currency: 'MXN',
 	});
 }
+
+const formatter = Intl.DateTimeFormat('es-MX', {
+	year: 'numeric',
+	day: 'numeric',
+	month: 'long',
+});
+
+export function dateToLongDate(d: Date) {
+	return formatter.format(d);
+}

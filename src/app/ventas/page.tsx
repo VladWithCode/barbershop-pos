@@ -1,50 +1,164 @@
 'use client';
-import Link from 'next/link';
 import React, { useState } from 'react';
-import Page from '../_components/Page';
-import Searchbar from '../_components/Searchbar';
-import SaleListing from './_components/SaleListing';
+import AddModal from './_components/AddModal';
+import { AnimatePresence } from 'framer-motion';
+import useCreateSaleStore from './_stores/useCreateSaleStore';
+import SaleProducts from './_components/SaleProducts';
+import { useCreateSale } from './_services/sale.service';
+import { useToast } from '@/app/_components/Toast/Toast';
+import { useRouter } from 'next/navigation';
+import Page from '@/app/_components/Page';
+import ConfirmModal from '../_components/ConfirmModal';
+import CreateSale from './_components/CreateSale';
+import Loading from '../_components/Loading/Loading';
 
-export default function Ventas() {
-	const [customerName, setCustomerName] = useState('');
+const FieldsEs: Record<string, any> = {
+	payment_method: 'Metodo de pago',
+	customer: 'Cliente',
+	seller: 'Vendedor',
+	payment_type: 'Tipo de pago',
+	deposit: 'Anticipo',
+	commission: 'Comision',
+	installment: 'Quincena',
+	products: 'Productos',
+};
+
+function NuevaVenta() {
+	const redirect = useRouter().push;
+	const [isAddModalActive, setIsAddModalActive] = useState(false);
+	const [isConfirmModalActive, setIsConfirmModalActive] = useState(false);
+	const {
+		setField,
+		setDeposit,
+		setPaymentType,
+		addProduct,
+		removeProduct,
+		clearState,
+		updateProductQty,
+		...fields
+	} = useCreateSaleStore(state => state);
+	const { mutateAsync, isLoading } = useCreateSale();
+	const { pushToast } = useToast();
+
+	const handleAddProduct = (product: any) => {
+		addProduct(product);
+	};
+
+	const handleUpdateProduct = (product: any) => {
+		updateProductQty(product._id, product.qty);
+	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		if (fields.payment_type === 'cash' && fields.deposit !== fields.total) {
+			pushToast({
+				message:
+					'La cantidad pagada debe ser la misma que el total de la venta',
+				type: 'error',
+			});
+			return;
+		}
+		const notRequiredFields = ['next_payment_date', 'commission'];
+		if (fields.payment_type === 'cash')
+			notRequiredFields.push('installment');
+
+		const requiredFields = Object.entries(fields).filter(
+			([field]) => !notRequiredFields.includes(field)
+		);
+
+		const invalidFields = requiredFields
+			.filter(([f, v]) => {
+				if (typeof v === 'number') {
+					return v === 0 || Number.isNaN(v);
+				}
+
+				if (typeof v === 'string') {
+					return v.length === 0;
+				}
+
+				if (f === 'products') {
+					return v.length === 0;
+				}
+
+				return false;
+			})
+			.map(([f]) => FieldsEs[f] || f);
+
+		if (invalidFields.length > 0) {
+			pushToast({
+				message:
+					'Algunos campos son invalidos: ' + invalidFields.join(', '),
+				type: 'error',
+			});
+			return;
+		}
+
+		await mutateAsync(fields, {
+			onSuccess: () => {
+				pushToast({
+					message: 'Venta realizada con éxito',
+					type: 'success',
+				});
+
+				clearState();
+				setIsConfirmModalActive(true);
+			},
+		});
+	};
 
 	return (
 		<Page>
-			<div className="flex flex-col col-span-6 px-4 py-2 overflow-hidden">
-				<h1 className="text-lg font-medium">Ventas</h1>
-				<p className="text-zinc-500">Listado de ventas</p>
-				<div className="py-2" />
-				<Searchbar onSearch={s => setCustomerName(s)} />
-				<div className="py-2" />
-
-				<div className="flex-auto overflow-y-auto custom-scroll-bar pr-1">
-					<SaleListing search={customerName} />
+			{isLoading && (
+				<div className="relative col-span-full row-start-1 backdrop-blur h-full w-full flex justify-center items-center z-10 bg-zinc-800 bg-opacity-30">
+					<Loading />
 				</div>
+			)}
+			<div className="col-span-6 col-start-1 row-start-1 px-4 py-2">
+				<h1 className="text-xl font-medium">Registrar venta nueva</h1>
+				<p className="text-zinc-500">
+					Agrega una nueva venta a la base de datos.
+				</p>
+				<div className="py-2" />
+				<CreateSale handleSubmit={handleSubmit} isLoading={isLoading} />
+			</div>
+			<div className="col-span-6 col-start-7 row-start-1 py-2 px-4">
+				<div className="pt-[67px]" />
+				<SaleProducts
+					handleAddClick={() => setIsAddModalActive(true)}
+					handleRemoveClick={removeProduct}
+					handleUpdate={handleUpdateProduct}
+					products={fields.products}
+					total={fields.total}
+					priceKey={
+						fields.payment_type === 'cash'
+							? 'sell_price_cash'
+							: 'sell_price_credit'
+					}
+				/>
 			</div>
 
-			<div className="col-span-6 px-4 py-2">
-				<h2 className="text-lg text-right">Acciones</h2>
-				<div className="py-2" />
-				<div className="flex flex-wrap gap-2 w-fit ml-auto text-zinc-50">
-					<Link
-						className="flex flex-col justify-center items-center aspect-square w-32 text-center text-zinc-300 bg-rose-950 p-1 rounded"
-						href="/ventas/nueva">
-						<svg className="w-8 h-8 fill-current mx-auto xl:w-12 xl:h-12">
-							<use href="/sprites.svg#plus"></use>
-						</svg>
-						<p className="text-xs font-bold xl:text-md">Nueva</p>
-					</Link>
-
-					<Link
-						className="flex flex-col justify-center items-center aspect-square w-32 text-center text-zinc-300 bg-rose-950 p-1 rounded"
-						href="/ventas/abono">
-						<svg className="w-8 h-8 fill-current mx-auto xl:w-12 xl:h-12">
-							<use href="/sprites.svg#bill"></use>
-						</svg>
-						<p className="text-xs font-bold xl:text-md">Abono</p>
-					</Link>
-				</div>
-			</div>
+			<AnimatePresence>
+				{isAddModalActive ? (
+					<AddModal
+						isActive={isAddModalActive}
+						setIsActive={setIsAddModalActive}
+						onAdd={handleAddProduct}
+					/>
+				) : null}
+			</AnimatePresence>
+			{isConfirmModalActive && (
+				<ConfirmModal
+					message="La venta se registro con exito. ¿Deseas revisarla ahora?"
+					onConfirm={() => {
+						setIsConfirmModalActive(false);
+						redirect('/ventas');
+					}}
+					onCancel={() => setIsConfirmModalActive(false)}
+				/>
+			)}
 		</Page>
 	);
 }
+
+export default NuevaVenta;

@@ -3,9 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 	const token = request.cookies.get('access_token');
+	const redirectURL = request.url;
 
 	if (!token && !path.startsWith('/login'))
-		return NextResponse.redirect(new URL('/login', request.url));
+		return NextResponse.redirect(
+			new URL('/login?redirect=' + redirectURL, request.url)
+		);
 
 	if (token && path.startsWith('/login'))
 		return NextResponse.redirect(new URL('/', request.url));

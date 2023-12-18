@@ -1,8 +1,6 @@
 import { numberToPrice } from '@/app/_utils/helpers';
 import React from 'react';
 import { Product } from '../_stores/useCreateSaleStore';
-import Image from 'next/image';
-import globals from '@/app/globals';
 import { SaleProduct } from './SaleProduct';
 
 export default function SaleProducts({
@@ -27,7 +25,7 @@ export default function SaleProducts({
 				<button
 					className="bg-zinc-800 text-zinc-50 py-1 px-4 rounded hover:bg-zinc-700"
 					onClick={handleAddClick}>
-					Agregar producto
+					Agregar Perfume
 				</button>
 			</div>
 			<div className="border-2 border-zinc-950 p-2 rounded grow flex flex-col gap-y-3">
@@ -39,12 +37,13 @@ export default function SaleProducts({
 							<use href="/sprites.svg#plus"></use>
 						</svg>
 						<p className="text-sm text-center">
-							Haz clic para agregar productos
+							Haz clic para agregar perfumes
 						</p>
 					</button>
 				) : (
 					products.map(p => (
 						<SaleProduct
+							key={p._id}
 							product={p}
 							priceKey={priceKey}
 							handleRemoveClick={handleRemoveClick}

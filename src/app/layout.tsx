@@ -4,6 +4,8 @@ import { Poppins } from 'next/font/google';
 import Sidebar from './_components/Sidebar/Sidebar';
 import GlobalQueryProvider from './_components/GlobalQueryProvider';
 import ToastWrapper from './_components/Toast/Toast';
+import ToolboxWrapper from './_components/Toolbox/Wrapper';
+import FloatingWindowWrapper from './_FloatingWindows/Wrapper';
 
 const font = Poppins({
 	weight: ['300', '400', '500', '700'],
@@ -27,7 +29,9 @@ export default function RootLayout({
 					<GlobalQueryProvider>
 						<Sidebar />
 						{children}
+						<ToolboxWrapper />
 						<ToastWrapper />
+						<FloatingWindowWrapper />
 					</GlobalQueryProvider>
 				</div>
 			</body>
